@@ -1,0 +1,14 @@
+/* Catálogo único: agregar una sección aquí actualiza la navegación y su pantalla. */
+window.CejProModules = [
+ {id:'inicio',label:'Inicio',icon:'home',title:'Tu espacio, en orden.',description:'Un lugar para organizar tu práctica legal.',emptyTitle:'Aquí comienza tu espacio de trabajo',emptyDescription:'La estructura está lista. Cada sección irá tomando forma, paso a paso.'},
+ {id:'calendario',label:'Calendario y plazos',icon:'calendar',description:'Un espacio para tu agenda y tus próximos vencimientos.'},
+ {id:'expedientes',label:'Casos y expedientes',icon:'folder',description:'Un espacio para reunir y organizar tus asuntos legales.'},
+ {id:'sinoe',label:'Casilla SINOE',icon:'inbox',description:'Un espacio para organizar las notificaciones de tus expedientes.'},
+ {id:'clientes',label:'Clientes y cobros',icon:'users',description:'Un espacio para tus clientes y el seguimiento de honorarios.'},
+ {id:'equipo',label:'Organización y equipo',icon:'team',description:'Un espacio compartido para organizar tu estudio.'},
+ {id:'escritos',label:'Redactar escritos',icon:'file',description:'Un espacio para preparar y organizar tus escritos.'},
+ {id:'soporte',label:'Soporte',icon:'help',description:'Un espacio para encontrar ayuda cuando la necesites.',utility:true},
+ {id:'perfil',label:'Mi perfil',icon:'user',description:'Un espacio para tu información personal y profesional.',account:true},
+ {id:'personalizar',label:'Personalizar',icon:'palette',description:'Haz que tu espacio se sienta más tuyo.',account:true},
+ {id:'configuracion',label:'Configuración',icon:'settings',description:'Un espacio para las preferencias de tu cuenta.',account:true}
+];
