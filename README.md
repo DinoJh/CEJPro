@@ -1,41 +1,35 @@
-# CEJ PRO — Etapa 01
+# CEJ PRO — Versión 02 Calendario y plazos
 
-Esqueleto navegable del sistema de gestión. HTML, CSS y JavaScript sin dependencias ni compilación.
+Prototipo local de diseño e interacción con datos ficticios. Conserva la versión 01 y sus tres temas.
 
 ## Abrir
 
-Abrir `index.html` en Chrome. Opcionalmente, servir esta carpeta con `python -m http.server 8076` y visitar http://localhost:8076.
+Abre `index.html` en Chrome. Se abre Calendario y plazos por defecto. También puedes servir esta carpeta con `python -m http.server 8077` y visitar http://localhost:8077/#calendario.
 
-## Estructura
+## Qué puedes probar
 
-- `index.html`: estructura común de la aplicación.
-- `assets/images/`: logo proporcionado.
-- `assets/css/base.css`: colores, tipografía y reglas compartidas.
-- `assets/css/layout.css`: distribución y adaptación a móvil.
-- `assets/css/components.css`: navegación, cuenta y estados vacíos.
-- `assets/js/icons.js`: iconos SVG locales.
-- `assets/js/app.js`: navegación, menú lateral y cuenta.
-- `modules/navigation.js`: catálogo de módulos y textos de sus pantallas.
+- Cambiar de mes, volver a Hoy y seleccionar un día.
+- Alternar Mes / Agenda y filtrar audiencias, plazos, reuniones y diligencias.
+- Consultar la agenda del día y próximos compromisos.
+- Crear un evento, abrirlo, editarlo, marcarlo completado o eliminarlo.
+- Formulario compacto con título, tipo, fecha, hora y enlace.
+- Desplegar Adicionales para expediente, cliente y notas; cerrado al abrir el formulario.
+- Al editar, la opción de completado está también dentro de Adicionales.
+- Recargar: los cambios se conservan en el navegador cuando permite almacenamiento local.
+- Cambiar entre Elegante, Claro y Oscuro desde Tu cuenta → Personalizar.
 
-## Alcance de esta versión
+Las fechas de los ejemplos son relativas al primer uso. Los eventos no provienen del CEJ ni SINOE. No hay acceso a Google Calendar, correos, recordatorios ni cálculo automático de plazos judiciales. Casos y clientes son texto libre hasta implementar esos módulos. La agenda no se sincroniza entre equipos. Los otros módulos siguen vacíos.
 
-Inicio, seis módulos seleccionados, soporte, perfil y configuración con estados vacíos. Menú lateral contraíble en escritorio y desplegable en móvil. Navegación por hash compatible con Atrás/Adelante y enlaces directos.
+## Organización
 
-Los módulos no están implementados: no hay datos reales, cuentas, consultas CEJ, acceso SINOE ni integraciones. La identidad TU y el espacio personal son marcadores de diseño. Transcripciones y portales futuros no se incluyen en esta etapa.
+`modules/calendar/` contiene los archivos `data.js` (ejemplos y almacenamiento), `calendar.js` (vistas y editor), y `calendar.css` (estilos).
 
-## Revisar
+`assets/css/`, `assets/js/`, `assets/images/` y `modules/navigation.js` conservan la estructura compartida de la versión 01.
 
-- Recorrer todos los módulos, soporte y el menú de cuenta.
-- Contraer y expandir la barra; probar Atrás y Adelante.
-- Probar 390 px, 768 px y escritorio; usar Tab y Escape.
-- Verificar que el contenido conserve su ancho máximo en pantallas grandes.
+## Almacenamiento
 
-## Próximas versiones
+Eventos: `cejpro.v02.calendar`. Tema compartido: `cejpro.theme`. Si el almacenamiento está bloqueado, se informa y los eventos sobreviven solo durante la visita. Para volver a los ejemplos se puede borrar únicamente `cejpro.v02.calendar` desde las herramientas del navegador. Abrir por archivo y por servidor usa almacenes diferentes.
 
-Conservar esta carpeta como versión 01. El usuario administra las versiones en GitHub. Construir y revisar un módulo por vez sobre la estructura compartida.
+## Validación manual
 
-## Personalizar
-
-En Tu cuenta → Personalizar puedes elegir Elegante (predeterminado), Claro u Oscuro. La preferencia se guarda localmente con la clave `cejpro.theme`. Si el navegador bloquea el almacenamiento, el cambio funciona durante la visita y se muestra un aviso. No se envían preferencias a ningún servidor.
-
-Los archivos `assets/css/themes.css`, `assets/js/theme-init.js` y `assets/js/personalization.js` concentran la apariencia y su selector.
+Comprobar navegación de meses y cambio de año, filtros vacíos, agenda sin eventos, creación/edición/eliminación, persistencia al recargar, escape del cuadro, títulos largos, los tres temas y móvil a 390 px. La fecha de vencimiento siempre la indica el usuario.

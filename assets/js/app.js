@@ -18,11 +18,13 @@
  function closeMenu(){document.body.classList.remove('mobile-open');syncMenu();}
  function closeAccount(){ $('accountMenu').hidden=true; $('accountButton').setAttribute('aria-expanded','false'); }
  function render(){
-  const id=location.hash.slice(1)||'inicio';
+  const id=location.hash.slice(1)||'calendario';
   const m=modules.find(m=>m.id===id)||modules[0];
   document.querySelectorAll('.nav-item').forEach(a=>{const active=a.hash==='#'+m.id;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
   $('personalization').hidden=m.id!=='personalizar';
-  document.querySelector('.workspace-canvas').hidden=m.id==='personalizar';
+  document.querySelector('.workspace-canvas').hidden=['personalizar','calendario'].includes(m.id);
+  $('calendarModule').hidden=m.id!=='calendario';
+  if(m.id==='calendario') window.CejProCalendar.mount($('calendarModule'));
   $('pageTitle').textContent=m.title||m.label;
   $('pageDescription').textContent=m.description;
   $('eyebrow').textContent=m.account?'MI CUENTA':m.utility?'CENTRO DE AYUDA':'ESPACIO DE TRABAJO';
