@@ -2,7 +2,7 @@
 window.CejProModules = [
  {id:'inicio',label:'Inicio',icon:'home',title:'Tu espacio, en orden.',description:'Un lugar para organizar tu práctica legal.',emptyTitle:'Aquí comienza tu espacio de trabajo',emptyDescription:'La estructura está lista. Cada sección irá tomando forma, paso a paso.'},
  {id:'calendario',label:'Calendario y plazos',icon:'calendar',description:'Tus audiencias, reuniones y vencimientos, en un solo lugar.'},
- {id:'expedientes',label:'Casos y expedientes',icon:'folder',description:'Un espacio para reunir y organizar tus asuntos legales.'},
+ {id:'expedientes',label:'Casos y expedientes',icon:'folder',description:'Tus asuntos legales, organizados y siempre a mano.'},
  {id:'sinoe',label:'Casilla SINOE',icon:'inbox',description:'Un espacio para organizar las notificaciones de tus expedientes.'},
  {id:'clientes',label:'Clientes y cobros',icon:'users',description:'Un espacio para tus clientes y el seguimiento de honorarios.'},
  {id:'equipo',label:'Organización y equipo',icon:'team',description:'Un espacio compartido para organizar tu estudio.'},

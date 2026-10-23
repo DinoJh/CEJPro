@@ -3,8 +3,8 @@
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#202a2b"><title>CEJ PRO · Mi espacio</title>
 <script src="assets/js/theme-init.js"></script>
 <link rel="icon" href="assets/images/cejpro-logo.png"><link rel="stylesheet" href="assets/css/base.css"><link rel="stylesheet" href="assets/css/layout.css"><link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/themes.css"><link rel="stylesheet" href="modules/calendar/calendar.css">
-<script defer src="assets/js/personalization.js"></script><script defer src="assets/js/icons.js"></script><script defer src="modules/navigation.js"></script><script defer src="modules/calendar/data.js"></script><script defer src="modules/calendar/calendar.js"></script><script defer src="assets/js/app.js"></script></head>
+<link rel="stylesheet" href="assets/css/themes.css"><link rel="stylesheet" href="modules/calendar/calendar.css"><link rel="stylesheet" href="modules/cases/cases.css">
+<script defer src="assets/js/personalization.js"></script><script defer src="assets/js/icons.js"></script><script defer src="modules/navigation.js"></script><script defer src="modules/calendar/data.js"></script><script defer src="modules/calendar/calendar.js"></script><script defer src="modules/cases/data.js"></script><script defer src="modules/cases/files.js"></script><script defer src="modules/cases/cases.js"></script><script defer src="assets/js/app.js"></script></head>
 <body><a class="skip-link" href="#main">Ir al contenido</a>
 <button class="backdrop" id="backdrop" aria-label="Cerrar navegación" hidden></button>
 <aside class="sidebar" id="sidebar" aria-label="Navegación principal">
@@ -16,7 +16,8 @@
 <div class="account-menu" id="accountMenu" hidden><a href="#perfil"><span data-icon="user" class="icon"></span>Mi perfil</a><a href="#personalizar"><span data-icon="palette" class="icon"></span>Personalizar</a><a href="#configuracion"><span data-icon="settings" class="icon"></span>Configuración</a></div>
 </div></aside>
 <div class="app-shell"><header class="topbar"><div class="breadcrumb"><button class="icon-button" id="menuButton" aria-label="Contraer navegación" aria-controls="sidebar" aria-expanded="true"><span class="icon" data-icon="panel"></span></button><span class="breadcrumb-home">Mi espacio</span><span class="breadcrumb-divider">/</span><span id="breadcrumbCurrent">Inicio</span></div><div class="header-right"><span class="prototype-label"><span></span>Vista preliminar</span><a class="header-avatar" href="#perfil" aria-label="Abrir mi perfil">TU</a></div></header>
-<main id="main" tabindex="-1"><div class="content"><div class="page-heading"><div><p class="eyebrow" id="eyebrow">ESPACIO DE TRABAJO</p><h1 id="pageTitle">Tu espacio, en orden.</h1><p class="page-description" id="pageDescription">Un lugar para organizar tu práctica legal.</p></div><span class="stage-tag">Etapa 02 <span>·</span> Calendario</span></div>
+<main id="main" tabindex="-1"><div class="content"><div class="page-heading"><div><p class="eyebrow" id="eyebrow">ESPACIO DE TRABAJO</p><h1 id="pageTitle">Tu espacio, en orden.</h1><p class="page-description" id="pageDescription">Un lugar para organizar tu práctica legal.</p></div><span class="stage-tag">Etapa 03 <span>·</span> Casos</span></div>
+<section id="casesModule" aria-label="Casos y expedientes" hidden></section>
 <section id="calendarModule" aria-label="Calendario y plazos" hidden></section>
 <section id="personalization" class="personalization" aria-label="Personalizar apariencia" hidden>
 <div class="appearance-heading"><h2>Apariencia</h2><p>Elige el ambiente de tu espacio de trabajo.</p></div><fieldset class="theme-options"><legend class="sr-only">Tema de la interfaz</legend>

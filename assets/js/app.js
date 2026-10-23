@@ -22,7 +22,9 @@
   const m=modules.find(m=>m.id===id)||modules[0];
   document.querySelectorAll('.nav-item').forEach(a=>{const active=a.hash==='#'+m.id;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
   $('personalization').hidden=m.id!=='personalizar';
-  document.querySelector('.workspace-canvas').hidden=['personalizar','calendario'].includes(m.id);
+  document.querySelector('.workspace-canvas').hidden=['personalizar','calendario','expedientes'].includes(m.id);
+  $('casesModule').hidden=m.id!=='expedientes';
+  if(m.id==='expedientes') window.CejProCases.mount($('casesModule'));
   $('calendarModule').hidden=m.id!=='calendario';
   if(m.id==='calendario') window.CejProCalendar.mount($('calendarModule'));
   $('pageTitle').textContent=m.title||m.label;
@@ -43,7 +45,7 @@
  $('backdrop').addEventListener('click',closeMenu);
  $('accountButton').addEventListener('click',()=>{const open=$('accountMenu').hidden;$('accountMenu').hidden=!open;$('accountButton').setAttribute('aria-expanded',String(open));});
  document.addEventListener('click',e=>{if(!e.target.closest('.sidebar-bottom'))closeAccount();});
- document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAccount();closeMenu();$('menuButton').focus();}});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.querySelector('dialog[open]'))return;closeAccount();closeMenu();$('menuButton').focus();}});
  mobile.addEventListener('change',closeMenu);
  window.addEventListener('hashchange',()=>{if(location.hash==='#main')return;render();$('main').focus({preventScroll:true});});
  render();
