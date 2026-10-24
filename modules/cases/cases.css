@@ -36,9 +36,6 @@
 
 /* El listado completo comparte una única tarjeta, igual que la ficha del caso. */
 .cases-list-shell{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:0}
-.cases-list-header{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:28px 28px 24px;border-bottom:1px solid var(--line)}
-.cases-list-header>div{min-width:0}.cases-list-header h1{font-size:28px;margin-top:9px;overflow-wrap:anywhere}.cases-list-header>.cases-primary{flex:none}
-.cases-list-description{font-size:12px;color:var(--muted);line-height:1.8;margin-top:10px}
 .cases-list-shell .cases-top{margin:0;padding:16px 28px;border-bottom:1px solid var(--soft-line)}
 .cases-list-shell .cases-layout{gap:0;align-items:stretch;min-height:480px}
 .cases-list-shell .cases-folders{border:0;border-right:1px solid var(--line);border-radius:0;background:transparent;padding:24px 10px}
@@ -46,4 +43,4 @@
 .cases-list-shell .cases-local-note{margin:0;padding:16px 28px;border-top:1px solid var(--line)}
 .cases-list-shell>.cases-notice{margin:0;padding:0 28px 16px}.cases-list-shell>.cases-notice:empty{display:none}
 @media(max-width:1150px){.cases-list-shell .cases-folders{border-right:0;border-bottom:1px solid var(--line);padding:18px}.cases-list-shell .cases-layout{min-height:0}}
-@media(max-width:600px){.cases-list-header{padding:22px 18px;align-items:flex-start;flex-direction:column;gap:18px}.cases-list-header h1{font-size:26px}.cases-list-shell .cases-top{padding:14px 18px}.cases-list-shell .cases-local-note{padding:16px 18px}.cases-list-shell>.cases-notice{padding:0 18px 16px}.cases-list-shell .cases-layout{gap:0}}
+@media(max-width:600px){.cases-list-shell .cases-top{padding:14px 18px}.cases-list-shell .cases-local-note{padding:16px 18px}.cases-list-shell>.cases-notice{padding:0 18px 16px}.cases-list-shell .cases-layout{gap:0}}

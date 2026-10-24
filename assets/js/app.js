@@ -26,7 +26,7 @@
   document.querySelector('.workspace-canvas').hidden=['personalizar','calendario','expedientes'].includes(m.id);
   $('casesModule').hidden=m.id!=='expedientes';
   if(m.id==='expedientes'){window.CejProCases.mount($('casesModule'));window.CejProCases.showRoute(route);}
-  document.querySelector('.page-heading').hidden=m.id==='expedientes';
+  document.querySelector('.page-heading').hidden=m.id==='expedientes'&&!!route.split('/')[1];
   $('calendarModule').hidden=m.id!=='calendario';
   if(m.id==='calendario') window.CejProCalendar.mount($('calendarModule'));
   $('pageTitle').textContent=m.title||m.label;
