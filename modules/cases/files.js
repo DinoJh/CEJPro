@@ -21,5 +21,12 @@ window.CejProCaseFiles = (() => {
   for(const f of pending)files.push({id:'file-'+(crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)),caseId,folderId,name:f.name,size:f.size,type:f.type||''});
   pending=[];editing=caseId;try{localStorage.setItem(key,JSON.stringify(files));return true;}catch(_){return false;}
  }
- return {mount,begin,commit,count};
+ function list(caseId){return files.filter(f=>f.caseId===caseId).map(f=>({...f,documentFolderId:f.documentFolderId||''}));}
+ function persist(){try{localStorage.setItem(key,JSON.stringify(files));return true;}catch(_){return false;}}
+ function add(caseId,folderId,selection,documentFolderId=''){
+  for(const f of selection)files.push({id:'file-'+(crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)),caseId,folderId,documentFolderId,name:f.name,size:f.size,type:f.type||''});
+  return persist();
+ }
+ function move(caseId,fileId,documentFolderId){const f=files.find(f=>f.caseId===caseId&&f.id===fileId);if(!f)return false;f.documentFolderId=documentFolderId;return persist();}
+ return {mount,begin,commit,count,list,add,move};
 })();

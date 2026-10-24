@@ -1,69 +1,58 @@
-# CEJ PRO — Etapa 03 Listado de casos y carpetas
+# CEJ PRO — Ficha de caso y organización del trabajo
 
-Prototipo local de diseño e interacción con datos ficticios. Conserva la versión 01 y sus tres temas.
+Prototipo local en HTML, CSS y JavaScript, sin compilación ni base de datos. Los registros iniciales son ficticios. Se conservan los temas Elegante, Claro y Oscuro.
 
 ## Abrir
 
-Abre `index.html` en Chrome. Se abre Calendario y plazos por defecto. También puedes servir esta carpeta con `python -m http.server 8077` y visitar http://localhost:8077/#calendario.
+Abre `index.html` en Chrome o ejecuta dentro de esta carpeta `python -m http.server 8077` y visita http://localhost:8077. El calendario es la pantalla inicial.
 
-## Qué puedes probar
+Para revisar la ficha, entra a Casos y expedientes y haz clic en la fila, el título o el enlace Abrir de un caso. Las direcciones usan `#expedientes/ID/resumen`, `documentos`, `partes`, `notas` o `agenda`; admiten enlaces directos y Atrás/Adelante.
 
-- Cambiar de mes, volver a Hoy y seleccionar un día.
-- Alternar Mes / Agenda y filtrar audiencias, plazos, reuniones y diligencias.
-- Consultar la agenda del día y próximos compromisos.
-- Crear un evento, abrirlo, editarlo, marcarlo completado o eliminarlo.
-- Formulario compacto con título, tipo, fecha, hora y enlace.
-- Desplegar Adicionales para expediente, cliente y notas; cerrado al abrir el formulario.
-- Al editar, la opción de completado está también dentro de Adicionales.
-- Recargar: los cambios se conservan en el navegador cuando permite almacenamiento local.
-- Cambiar entre Elegante, Claro y Oscuro desde Tu cuenta → Personalizar.
+## Calendario y plazos
 
-Las fechas de los ejemplos son relativas al primer uso. Los eventos no provienen del CEJ ni SINOE. No hay acceso a Google Calendar, correos, recordatorios ni cálculo automático de plazos judiciales. Casos y clientes son texto libre hasta implementar esos módulos. La agenda no se sincroniza entre equipos. Los otros módulos siguen vacíos.
+Vista mensual y agenda, filtros por tipo y formulario de eventos. Título, tipo, fecha, hora y enlace son visibles; expediente, cliente y notas están dentro de Adicionales. Los eventos se registran manualmente y se guardan localmente. No hay cálculo de plazos judiciales, correos ni sincronización con Google Calendar.
 
-## Organización
+## Casos y carpetas del listado
 
-`modules/calendar/` contiene los archivos `data.js` (ejemplos y almacenamiento), `calendar.js` (vistas y editor), y `calendar.css` (estilos).
+Búsqueda por caso, expediente o cliente; filtro por estado, paginación y carpetas. Nueva carpeta permite crear más carpetas con nombres únicos. Puedes registrar y editar casos y moverlos eligiendo otra carpeta.
 
-`assets/css/`, `assets/js/`, `assets/images/` y `modules/navigation.js` conservan la estructura compartida de la versión 01.
+Nuevo caso y Editar caso muestran los datos principales a la izquierda y una nota y archivos opcionales a la derecha. En móvil se apilan. Los adjuntos se agregan al guardar; cancelar no agrega referencias. Puedes incorporarlos después al editar o dentro de la ficha.
 
-## Almacenamiento
+## Ficha de cada caso
 
-Eventos: `cejpro.v02.calendar`. Tema compartido: `cejpro.theme`. Si el almacenamiento está bloqueado, se informa y los eventos sobreviven solo durante la visita. Para volver a los ejemplos se puede borrar únicamente `cejpro.v02.calendar` desde las herramientas del navegador. Abrir por archivo y por servidor usa almacenes diferentes.
+- **Resumen:** información general, cliente, estado, carpeta del listado y accesos a documentos, partes y nota.
+- **Documentos:** carpetas internas de ese caso, selección múltiple o arrastre de archivos y cambio de carpeta de cada documento. Las carpetas internas son independientes de las carpetas del listado. Los archivos anteriores aparecen en Sin carpeta.
+- **Partes:** alta y edición de personas u organizaciones, su rol dentro del caso y documento/contacto opcionales. Cada caso conserva sus propios involucrados; no se crean clientes automáticamente.
+- **Notas:** edición de la nota de trabajo, sincronizada con el listado y el formulario del caso.
 
-## Validación manual
+Los documentos son referencias visuales: solo se guardan nombres, tamaños y ubicación, no el contenido. No hay subida al servidor ni descarga/recuperación del original desde este prototipo. No hay IA, vigilancia, acceso al CEJ o SINOE. Los eventos creados dentro de un caso se vinculan por su identificador a Calendario y plazos.
 
-Comprobar navegación de meses y cambio de año, filtros vacíos, agenda sin eventos, creación/edición/eliminación, persistencia al recargar, escape del cuadro, títulos largos, los tres temas y móvil a 390 px. La fecha de vencimiento siempre la indica el usuario.
+## Organización del código
+
+`assets/` contiene el estilo común, navegación, temas e imágenes. `modules/navigation.js` declara los módulos.
+
+`modules/calendar/` contiene datos, vistas y estilos del calendario.
+
+`modules/cases/` contiene `data.js` y `cases.js` para el listado, `files.js` para referencias de adjuntos, y `detail-data.js`, `detail.js` y `detail.css` para partes, carpetas internas y ficha. `cases.css` define listado y formularios.
+
+## Datos y compatibilidad
+
+Se guardan en este navegador: `cejpro.theme` (tema), `cejpro.v02.calendar` (eventos), `cejpro.cases.v1` (casos y carpetas externas), `cejpro.files.preview.v1` (referencias de archivos) y `cejpro.caseDetails.v1` (partes y carpetas internas). Abrir por archivo y por servidor utiliza almacenes diferentes.
+
+Las notas y archivos previos asociados a casos siguen siendo compatibles. Las referencias antiguas sin caso permanecen en almacenamiento, sin asignarse a uno de forma automática. Si el almacenamiento está bloqueado, los cambios funcionan durante la visita y se muestra un aviso.
 
 ## Carpeta fija y respaldos
 
-Este directorio es la carpeta fija de trabajo para las siguientes etapas. El repositorio Git permanece aquí. Las próximas mejoras se aplicarán sobre estos archivos, sin crear otra carpeta de trabajo por versión.
+Esta es la carpeta fija de trabajo y conserva el repositorio Git. Antes de una etapa nueva se guarda una copia fuera del repositorio en `../respaldos-cejpro/`, excluyendo `.git`, dependencias y cachés. El usuario administra los commits y la subida a GitHub.
 
-Antes de una etapa nueva, guardar una copia del código en `../respaldos-cejpro/` con nombre de versión y fecha. Los respaldos se guardan fuera del repositorio de trabajo y no duplican `.git`.
+## Verificación
 
-El usuario administra los commits y la subida a GitHub.
+Se han probado las interacciones en un DOM simulado: búsqueda, filtros, carpetas, casos, notas, adjuntos opcionales, rutas, carpetas internas, partes, aislamiento por caso, persistencia y regresión del calendario y temas. La revisión visual y de dimensiones en un navegador real está pendiente cuando el control de Chrome vuelva a estar disponible.
 
-## Etapa 03 Casos y expedientes
+## Menú interno y agenda del caso
 
-Entra a Casos y expedientes desde el sidebar o agrega `#expedientes` a la dirección. El calendario sigue siendo la pantalla predeterminada.
+Resumen, Documentos, Partes, Notas y Agenda se navegan desde una barra lateral a la izquierda dentro de la ficha. En móvil se dispone como un menú compacto encima del contenido.
 
-Incluye listado paginado, búsqueda por título/expediente/cliente sin distinguir mayúsculas o tildes, filtro por estado, carpetas con contadores y vista Sin carpeta. Los contadores de carpetas reflejan todos sus casos; el contador del listado sí aplica búsqueda y estado.
+Agenda permite crear, editar, completar y eliminar eventos vinculados a este caso. Se muestran también en el calendario general, con la misma clave de almacenamiento `cejpro.v02.calendar`, sin duplicarlos. Editar o eliminar desde el calendario se refleja al volver a la agenda del caso. Los eventos antiguos sin `caseId` se mantienen como eventos generales; no se vinculan por coincidencias de texto.
 
-Puedes crear carpetas con nombre único, registrar un caso, editar sus datos y moverlo cambiando su carpeta desde el botón de tres puntos. El título del caso es obligatorio; expediente y cliente son opcionales. Los números DEMO son referencias ficticias.
-
-Los archivos están en `modules/cases/`: `data.js`, `cases.js` y `cases.css`. Los datos se guardan en la clave local `cejpro.cases.v1`; la agenda y su almacenamiento no cambian. No se duplica el repositorio Git ni se publican cambios.
-
-La ficha detallada y la selección de casos desde el calendario quedan para otra etapa. Las notas y la vista previa de archivos se describen más abajo. No hay consultas al CEJ ni SINOE, ni clientes reales. Si el navegador bloquea almacenamiento, los cambios duran durante la visita y se muestra un aviso.
-
-## Carpetas y archivos opcionales por caso
-
-Nueva carpeta permanece visible encima de las carpetas. No hay botón de subida ni pestaña de archivos en la pantalla principal.
-
-Para agregar archivos: Nuevo caso → columna derecha → Seleccionar archivos. Es opcional y también está disponible al editar un caso ya creado. Los archivos seleccionados se asocian al caso solo al pulsar Guardar caso; cancelar no agrega referencias. Al editar se muestran las referencias ya guardadas y se pueden agregar más. Mover el caso actualiza también la carpeta de sus referencias.
-
-Solo se guardan nombre, tamaño, tipo, caso y carpeta en `cejpro.files.preview.v1`. El contenido no se copia ni se envía a un servidor. Las antiguas referencias sin caso de la demostración anterior se conservan en almacenamiento sin asignarlas automáticamente a otro caso.
-
-## Notas por caso
-
-En Nuevo caso o Editar caso, usar Agregar nota (opcional) en la columna derecha para escribir una nota (hasta 2000 caracteres). Al guardar aparece un resumen de dos líneas en el listado. Ver nota abre la edición para consultar y modificar el texto completo en la columna derecha. Las notas usan el almacenamiento local de los casos; los registros guardados antes de esta mejora siguen siendo compatibles.
-
-El formulario de caso distribuye los datos principales a la izquierda y la nota y los archivos opcionales a la derecha. En móvil se apilan en una columna.
+El formulario mantiene título, tipo, fecha, hora y enlace; notas y completado están en Adicionales. El vínculo al caso se asigna automáticamente. Los plazos y recordatorios siguen siendo manuales; no hay notificaciones externas.

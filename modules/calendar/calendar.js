@@ -4,6 +4,7 @@
  const today=new Date(); today.setHours(12,0,0,0);
  let month=new Date(today.getFullYear(),today.getMonth(),1,12),selected=D.dateKey(today),events=D.load(today),view='month',host;
  const filters=new Set(Object.keys(D.types));
+ window.addEventListener('cejpro:calendar-change',()=>{events=D.load(today);if(host)render();});
  const fullDate = key => D.fromKey(key).toLocaleDateString('es-PE',{weekday:'long',day:'numeric',month:'long'});
  const monthText=()=>month.toLocaleDateString('es-PE',{month:'long',year:'numeric'});
  const sort=(a,b)=>(a.date+(a.time||'00:00')).localeCompare(b.date+(b.time||'00:00'));
@@ -66,7 +67,7 @@
  function persist(message){const stored=D.save(events);$('calendarNotice').textContent=message+(stored?' Guardado en este navegador.':' No se pudo guardar en este navegador; los cambios durarán durante esta visita.');}
  function saveEvent(e){e.preventDefault();const form=$('eventForm'),data=new FormData(form),title=String(data.get('title')).trim();if(!title){form.elements.namedItem('title').setCustomValidity('Escribe un título para el evento.');form.elements.namedItem('title').reportValidity();form.elements.namedItem('title').addEventListener('input',()=>form.elements.namedItem('title').setCustomValidity(''),{once:true});return;}
  const item={id:form.dataset.editing||'event-'+(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)),title,type:data.get('type'),date:data.get('date'),time:data.get('time'),caseRef:String(data.get('caseRef')).trim(),client:String(data.get('client')).trim(),location:String(data.get('location')).trim(),notes:String(data.get('notes')).trim(),done:data.has('done')};
- const i=events.findIndex(e=>e.id===item.id);if(i>=0)events[i]=item;else events.push(item);
+ const i=events.findIndex(e=>e.id===item.id);item.caseId=i>=0?(events[i].caseId||''):'';if(i>=0)events[i]=item;else events.push(item);
  selected=item.date;const d=D.fromKey(item.date);month=new Date(d.getFullYear(),d.getMonth(),1,12);filters.add(item.type);persist('Evento guardado.');$('eventDialog').close();render();
  }
  window.CejProCalendar={mount};

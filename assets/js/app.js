@@ -18,13 +18,15 @@
  function closeMenu(){document.body.classList.remove('mobile-open');syncMenu();}
  function closeAccount(){ $('accountMenu').hidden=true; $('accountButton').setAttribute('aria-expanded','false'); }
  function render(){
-  const id=location.hash.slice(1)||'calendario';
+  const route=location.hash.slice(1)||'calendario';
+  const id=route.split('/')[0];
   const m=modules.find(m=>m.id===id)||modules[0];
   document.querySelectorAll('.nav-item').forEach(a=>{const active=a.hash==='#'+m.id;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
   $('personalization').hidden=m.id!=='personalizar';
   document.querySelector('.workspace-canvas').hidden=['personalizar','calendario','expedientes'].includes(m.id);
   $('casesModule').hidden=m.id!=='expedientes';
-  if(m.id==='expedientes') window.CejProCases.mount($('casesModule'));
+  if(m.id==='expedientes'){window.CejProCases.mount($('casesModule'));window.CejProCases.showRoute(route);}
+  document.querySelector('.page-heading').hidden=m.id==='expedientes';
   $('calendarModule').hidden=m.id!=='calendario';
   if(m.id==='calendario') window.CejProCalendar.mount($('calendarModule'));
   $('pageTitle').textContent=m.title||m.label;
