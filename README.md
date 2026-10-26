@@ -86,3 +86,13 @@ El formulario mantiene título, tipo, fecha, hora y enlace; notas y completado e
 - Los registros anteriores sin moneda se interpretan como soles, conservando sus importes y pagos. No se permite cambiar la moneda mientras existan pagos registrados.
 - La nota se muestra siempre en la columna derecha del formulario de alta/edición de clientes. En pantallas pequeñas pasa debajo de los datos principales; Vincular casos conserva su desplegable.
 - Verificado: migración de registros anteriores, pago parcial en USD, separación PEN/USD, edición con moneda bloqueada, persistencia y edición de nota.
+
+
+## Etapa 09 · Organización y equipo
+
+- Directorio de integrantes con búsqueda por nombre, correo, rol o área, filtros de activos/inactivos y paginación.
+- Alta y edición con rol interno, contacto y nota visible a la derecha; la nota pasa debajo en móvil.
+- Asignación de uno o varios casos existentes mediante sus IDs. La ficha muestra los casos asignados y permite abrirlos; varios integrantes pueden colaborar en un mismo caso.
+- El estado inactivo conserva el historial y las asignaciones. Este registro no crea cuentas, envía invitaciones ni aplica permisos reales.
+- Almacenamiento local independiente en `cejpro.team.v1`; sin cambios a los datos de clientes, cobros o expedientes.
+- Verificado en DOM: alta/edición, asignación/desasignación, filtros, duplicados de correo, búsqueda, nota, breadcrumb, ruta inexistente, persistencia y navegación entre módulos. Revisión visual pendiente por bloqueo de `file://` en la herramienta de navegador.
