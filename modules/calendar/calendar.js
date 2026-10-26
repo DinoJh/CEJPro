@@ -70,5 +70,6 @@
  const i=events.findIndex(e=>e.id===item.id);item.caseId=i>=0?(events[i].caseId||''):'';if(i>=0)events[i]=item;else events.push(item);
  selected=item.date;const d=D.fromKey(item.date);month=new Date(d.getFullYear(),d.getMonth(),1,12);filters.add(item.type);persist('Evento guardado.');$('eventDialog').close();render();
  }
- window.CejProCalendar={mount};
+ function showRoute(route){const parts=route.split('/');if(!host||!parts[1])return;if(parts[1]==='evento'){let id;try{id=decodeURIComponent(parts[2]||'');}catch(_){return;}const event=events.find(e=>e.id===id);if(!event)return;selected=event.date;const d=D.fromKey(selected);month=new Date(d.getFullYear(),d.getMonth(),1,12);filters.add(event.type);render();openEditor(id);}else if(['dia','nuevo'].includes(parts[1])){const key=parts[2]||D.dateKey(new Date()),d=D.fromKey(key);if(!/^\d{4}-\d{2}-\d{2}$/.test(key)||isNaN(d)||D.dateKey(d)!==key)return;selected=key;month=new Date(d.getFullYear(),d.getMonth(),1,12);render();if(parts[1]==='nuevo')openEditor();}}
+ window.CejProCalendar={mount,showRoute};
 })();

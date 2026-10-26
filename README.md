@@ -157,3 +157,23 @@ El formulario mantiene título, tipo, fecha, hora y enlace; notas y completado e
 - Papelera en el listado y Eliminar borrador dentro del editor, con confirmación que identifica el documento.
 - La eliminación se aplica solo si se puede guardar el nuevo listado. Se cancela el autoguardado pendiente para evitar restaurar accidentalmente el documento eliminado.
 - Las plantillas personales se conservan. Verificado: cancelar/confirmar, eliminar desde listado/editor, fallo de persistencia, último borrador y ausencia de efectos sobre plantillas.
+
+
+## Etapa 12 · Contacto
+
+- Soporte se limita al contacto directo por WhatsApp al número indicado por el usuario: +51 938 544 411.
+- El enlace abre WhatsApp con un saludo breve; el usuario revisa y envía el mensaje allí. No se envían mensajes automáticamente.
+- Se retiraron las guías, preguntas frecuentes y formularios de consulta de esta pantalla.
+
+## Etapa 13 · Inicio en tarjetas
+
+- Inicio pasa a ser la pantalla predeterminada al abrir el archivo sin ruta.
+- Cuatro tarjetas grandes: calendario/agenda del día, expedientes para continuar, notificaciones de la casilla vinculada y últimos borradores.
+- Calendario mensual con navegación, selección de fecha y accesos a la agenda, detalle de evento y creación de un compromiso para el día elegido.
+- Los casos visitados se recuerdan en `cejpro.recentCases.v1`; si no existe historial se muestran casos del archivo. Los escritos se ordenan por su última modificación.
+- El resumen SINOE solo lee datos de la cuenta vinculada y no cambia el estado de lectura. Si no hay vínculo, se ofrece Conectar casilla.
+- Los resúmenes se cargan desde los datos de los módulos al volver a Inicio, sin duplicar notificaciones o borradores ni alterar los datos originales.
+- Rutas añadidas al calendario: `#calendario/dia/AAAA-MM-DD`, `#calendario/nuevo/AAAA-MM-DD` y `#calendario/evento/ID`.
+- Estados vacíos con accesos a cada módulo y adaptación a los tres temas y pantallas pequeñas.
+- Verificado en DOM: Inicio predeterminado, cuatro tarjetas, mes/fecha, agenda, eventos/alta, historial de casos, orden de borradores, actualización de lectura, ocultación de notificaciones al desvincular y estados vacíos. Revisión visual en navegador pendiente por bloqueo de `file://` en la herramienta.
+- Soporte, Perfil y Configuración quedan pendientes de trabajo adicional por indicación del usuario.

@@ -1,0 +1,3 @@
+/* Contacto directo por WhatsApp. */
+.support-whatsapp-card{max-width:620px;margin:0 auto;padding:55px 30px;text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:14px}.support-whatsapp-icon{display:grid;place-items:center;width:62px;height:62px;margin:0 auto 24px;padding:15px;border-radius:18px;background:var(--accent-soft);color:var(--accent-text)}.support-whatsapp-card h2{font:400 27px/1.5 Georgia,serif}.support-whatsapp-number{font-size:16px;letter-spacing:.4px;color:var(--muted);margin:17px 0 28px}.support-whatsapp-card .cases-primary{padding:13px 20px}
+@media(max-width:600px){.support-whatsapp-card{padding:40px 22px}.support-whatsapp-card h2{font-size:24px}}

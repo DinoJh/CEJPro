@@ -29,14 +29,16 @@
  window.addEventListener('cejpro:writing-render',()=>updateBreadcrumb());
  window.addEventListener('cejpro:sinoe-render',()=>{updateBreadcrumb();if(location.hash.slice(1).split('/')[0]==='sinoe')document.querySelector('.page-heading').hidden=!!document.querySelector('#sinoeScreen .sinoe-heading');});
  function render(){
-  const route=location.hash.slice(1)||'calendario';
+  const route=location.hash.slice(1)||'inicio';
   const id=route.split('/')[0];
   const m=modules.find(m=>m.id===id)||modules[0];
   document.querySelectorAll('.nav-item').forEach(a=>{const active=a.hash==='#'+m.id;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  $('homeModule').hidden=m.id!=='inicio';
+  if(m.id==='inicio')window.CejProHome.mount($('homeModule'));
   $('personalization').hidden=m.id!=='personalizar';
-  document.querySelector('.workspace-canvas').hidden=['personalizar','calendario','expedientes','clientes','equipo','sinoe','escritos'].includes(m.id);
+  document.querySelector('.workspace-canvas').hidden=['inicio','personalizar','calendario','expedientes','clientes','equipo','sinoe','escritos','soporte'].includes(m.id);
   $('casesModule').hidden=m.id!=='expedientes';
-  if(m.id==='expedientes'){window.CejProCases.mount($('casesModule'));window.CejProCases.showRoute(route);}
+  if(m.id==='expedientes'){window.CejProCases.mount($('casesModule'));window.CejProCases.showRoute(route);if(route.split('/')[1]&&document.querySelector('#caseDetailScreen .detail-heading h1')){try{window.CejProHome.recordCase(decodeURIComponent(route.split('/')[1]));}catch(_){}}}
   $('clientsModule').hidden=m.id!=='clientes';
   if(m.id==='clientes'){window.CejProClients.mount($('clientsModule'));window.CejProClients.showRoute(route);}
   $('teamModule').hidden=m.id!=='equipo';
@@ -46,8 +48,10 @@
   $('writingsModule').hidden=m.id!=='escritos';
   if(m.id==='escritos'){window.CejProWritings.mount($('writingsModule'));window.CejProWritings.showRoute(route);}
   document.querySelector('.page-heading').hidden=['expedientes','clientes','equipo','sinoe','escritos'].includes(m.id)&&!!route.split('/')[1]&&(m.id!=='sinoe'||!!document.querySelector('#sinoeScreen .sinoe-heading'));
+  $('supportModule').hidden=m.id!=='soporte';
+  if(m.id==='soporte')window.CejProSupport.mount($('supportModule'));
   $('calendarModule').hidden=m.id!=='calendario';
-  if(m.id==='calendario') window.CejProCalendar.mount($('calendarModule'));
+  if(m.id==='calendario'){window.CejProCalendar.mount($('calendarModule'));window.CejProCalendar.showRoute(route);}
   $('pageTitle').textContent=m.title||m.label;
   $('pageDescription').textContent=m.description;
   $('eyebrow').textContent=m.account?'MI CUENTA':m.utility?'CENTRO DE AYUDA':'ESPACIO DE TRABAJO';
