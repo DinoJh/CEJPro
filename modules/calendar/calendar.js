@@ -12,7 +12,7 @@
  const inMonth=e=>e.date.slice(0,7)===D.dateKey(month).slice(0,7);
  const $=id=>host.querySelector('#'+id);
  function mount(element){if(host)return;host=element;
- host.innerHTML=`<div class="cal-top"><div class="cal-demo"><span class="cal-small-dot"></span>Datos de ejemplo<span class="cal-separator">·</span><span>Agenda manual</span></div><button class="cal-primary" id="addEvent"><span aria-hidden="true">＋</span> Nuevo evento</button></div>
+ host.innerHTML=`<div class="cal-top"><button class="cal-primary" id="addEvent"><span aria-hidden="true">＋</span> Nuevo evento</button></div>
  <div class="cal-layout"><section class="cal-board" aria-label="Vista de calendario"><div class="cal-toolbar"><div class="cal-period"><h2 id="monthLabel" aria-live="polite"></h2><div class="cal-arrows"><button class="cal-icon-btn" id="prevMonth" aria-label="Mes anterior">‹</button><button class="cal-icon-btn" id="nextMonth" aria-label="Mes siguiente">›</button></div><button class="cal-today" id="goToday">Hoy</button></div><div class="cal-view" role="group" aria-label="Vista de agenda"><button id="monthView" aria-pressed="true">Mes</button><button id="agendaView" aria-pressed="false">Agenda</button></div></div>
  <div class="cal-filters" role="group" aria-label="Filtrar por tipo de evento">${Object.entries(D.types).map(([key,label])=>`<button class="cal-filter type-${key}" data-filter="${key}" aria-pressed="true"><span class="cal-dot"></span>${label}</button>`).join('')}</div>
  <div id="calendarContents"></div><div class="cal-board-footer"><span id="eventCount"></span><span>Selecciona un día para ver su agenda</span></div></section>
