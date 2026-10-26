@@ -44,3 +44,5 @@
 .cases-list-shell>.cases-notice{margin:0;padding:0 28px 16px}.cases-list-shell>.cases-notice:empty{display:none}
 @media(max-width:1150px){.cases-list-shell .cases-folders{border-right:0;border-bottom:1px solid var(--line);padding:18px}.cases-list-shell .cases-layout{min-height:0}}
 @media(max-width:600px){.cases-list-shell .cases-top{padding:14px 18px}.cases-list-shell .cases-local-note{padding:16px 18px}.cases-list-shell>.cases-notice{padding:0 18px 16px}.cases-list-shell .cases-layout{gap:0}}
+
+.cases-list-shell .cases-top{justify-content:flex-end}

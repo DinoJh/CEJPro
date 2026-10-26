@@ -17,6 +17,13 @@
  }
  function closeMenu(){document.body.classList.remove('mobile-open');syncMenu();}
  function closeAccount(){ $('accountMenu').hidden=true; $('accountButton').setAttribute('aria-expanded','false'); }
+ function updateBreadcrumb(m=modules.find(m=>m.id===location.hash.slice(1).split('/')[0])||modules[0]){
+  const current=$('breadcrumbCurrent');current.replaceChildren();
+  const caseTitle=m.id==='expedientes'&&location.hash.split('/')[1]?document.querySelector('#caseDetailScreen .detail-heading h1')?.textContent:null;
+  if(caseTitle){const link=document.createElement('a');link.href='#expedientes';link.textContent=m.label;const divider=document.createElement('span');divider.className='breadcrumb-divider';divider.textContent='/';const title=document.createElement('span');title.textContent=caseTitle;title.setAttribute('aria-current','page');current.append(link,divider,title);}
+  else current.textContent=m.label;
+ }
+ window.addEventListener('cejpro:case-render',()=>updateBreadcrumb());
  function render(){
   const route=location.hash.slice(1)||'calendario';
   const id=route.split('/')[0];
@@ -32,7 +39,7 @@
   $('pageTitle').textContent=m.title||m.label;
   $('pageDescription').textContent=m.description;
   $('eyebrow').textContent=m.account?'MI CUENTA':m.utility?'CENTRO DE AYUDA':'ESPACIO DE TRABAJO';
-  $('breadcrumbCurrent').textContent=m.label;
+  updateBreadcrumb(m);
   $('canvasTitle').textContent=m.label;
   $('canvasIcon').innerHTML=icon(m.icon);
   $('emptyIcon').innerHTML=icon(m.icon);
