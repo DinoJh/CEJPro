@@ -25,3 +25,5 @@
 :root[data-theme="oscuro"] .home-card:nth-child(2){--home-accent:#e2c576;--home-tint:#353022;--home-border:#655834}
 :root[data-theme="oscuro"] .home-card:has(#homeSinoeTitle){--home-accent:#dcaed0;--home-tint:#342735;--home-border:#64465f}
 :root[data-theme="oscuro"] .home-card:has(#homeWritingsTitle){--home-accent:#9ccfbd;--home-tint:#23352e;--home-border:#3b6052}
+
+:root[data-theme="elegante"] .home-card:nth-child(1){--home-accent:#b42318;--home-icon:#b42318;--home-tint:#fff0e9;--home-border:#edc2b6}

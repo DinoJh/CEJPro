@@ -52,6 +52,16 @@
   if(m.id==='soporte')window.CejProSupport.mount($('supportModule'));
   $('calendarModule').hidden=m.id!=='calendario';
   if(m.id==='calendario'){window.CejProCalendar.mount($('calendarModule'));window.CejProCalendar.showRoute(route);}
+  // Keep primary list actions beside the page title, without an extra toolbar row.
+  const pageHeading=document.querySelector('.page-heading');
+  for(const [selector,moduleId] of [['.cal-top','calendario'],['.cases-top','expedientes']]){
+   const actions=document.querySelector(selector);
+   if(actions){
+    actions.classList.add('page-heading-actions');
+    pageHeading.append(actions);
+    actions.hidden=m.id!==moduleId||(moduleId==='expedientes'&&!!route.split('/')[1]);
+   }
+  }
   $('pageTitle').textContent=m.title||m.label;
   $('pageDescription').textContent=m.description;
   $('eyebrow').textContent=m.account?'MI CUENTA':m.utility?'CENTRO DE AYUDA':'ESPACIO DE TRABAJO';

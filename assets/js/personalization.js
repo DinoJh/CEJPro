@@ -6,7 +6,7 @@
   if (!names[theme]) theme = 'elegante';
   document.documentElement.dataset.theme = theme;
   document.documentElement.style.colorScheme = theme === 'oscuro' ? 'dark' : 'light';
-  document.querySelector('meta[name="theme-color"]').content = {elegante:'#202a2b',claro:'#ffffff',oscuro:'#15191d'}[theme];
+  document.querySelector('meta[name="theme-color"]').content = {elegante:'#a51d1d',claro:'#ffffff',oscuro:'#15191d'}[theme];
   options.forEach(input => { input.checked = input.value === theme; });
   let stored = true;
   if (save) { try { localStorage.setItem('cejpro.theme',theme); } catch (_) { stored = false; } }

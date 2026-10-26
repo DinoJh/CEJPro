@@ -14,3 +14,10 @@
 @media(min-width:1700px){.content{padding-top:32px}}
 @media(max-width:1000px){.topbar{padding:0 20px}.header-right{gap:6px}.topbar-action{padding:8px;font-size:10px}#breadcrumbCurrent [aria-current]{max-width:160px}}
 @media(max-width:760px){.topbar{height:auto;min-height:65px;flex-wrap:wrap;gap:10px;padding:12px 18px}.breadcrumb{width:100%}.header-right{margin-left:36px;flex-wrap:wrap}.content{padding-top:24px}#breadcrumbCurrent{font-size:11px;gap:8px}#breadcrumbCurrent [aria-current]{max-width:130px}}
+
+/* Compact page spacing and primary actions aligned with the heading. */
+.content{padding-top:20px}
+.page-heading .page-heading-actions{margin:0;padding:0;border:0;flex-shrink:0;display:flex;align-items:center;justify-content:flex-end}
+.page-heading .page-heading-actions[hidden]{display:none}
+@media(min-width:1700px){.content{padding-top:24px}}
+@media(max-width:760px){.content{padding-top:18px}.page-heading{gap:14px;flex-wrap:wrap}.page-heading .page-heading-actions{margin-left:auto}}
