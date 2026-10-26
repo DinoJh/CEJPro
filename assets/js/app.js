@@ -19,27 +19,30 @@
  function closeAccount(){ $('accountMenu').hidden=true; $('accountButton').setAttribute('aria-expanded','false'); }
  function updateBreadcrumb(m=modules.find(m=>m.id===location.hash.slice(1).split('/')[0])||modules[0]){
   const current=$('breadcrumbCurrent');current.replaceChildren();
-  const caseTitle=m.id==='expedientes'&&location.hash.split('/')[1]?document.querySelector('#caseDetailScreen .detail-heading h1')?.textContent:m.id==='clientes'&&location.hash.split('/')[1]?document.querySelector('#clientsScreen .client-heading h1')?.textContent:m.id==='equipo'&&location.hash.split('/')[1]?document.querySelector('#teamScreen .team-heading h1')?.textContent:null;
+  const caseTitle=m.id==='expedientes'&&location.hash.split('/')[1]?document.querySelector('#caseDetailScreen .detail-heading h1')?.textContent:m.id==='clientes'&&location.hash.split('/')[1]?document.querySelector('#clientsScreen .client-heading h1')?.textContent:m.id==='equipo'&&location.hash.split('/')[1]?document.querySelector('#teamScreen .team-heading h1')?.textContent:m.id==='sinoe'&&location.hash.split('/')[1]?document.querySelector('#sinoeScreen .sinoe-heading h1')?.textContent:null;
   if(caseTitle){const link=document.createElement('a');link.href='#'+m.id;link.textContent=m.label;const divider=document.createElement('span');divider.className='breadcrumb-divider';divider.textContent='/';const title=document.createElement('span');title.textContent=caseTitle;title.setAttribute('aria-current','page');current.append(link,divider,title);}
   else current.textContent=m.label;
  }
  window.addEventListener('cejpro:case-render',()=>updateBreadcrumb());
  window.addEventListener('cejpro:client-render',()=>updateBreadcrumb());
  window.addEventListener('cejpro:team-render',()=>updateBreadcrumb());
+ window.addEventListener('cejpro:sinoe-render',()=>{updateBreadcrumb();if(location.hash.slice(1).split('/')[0]==='sinoe')document.querySelector('.page-heading').hidden=!!document.querySelector('#sinoeScreen .sinoe-heading');});
  function render(){
   const route=location.hash.slice(1)||'calendario';
   const id=route.split('/')[0];
   const m=modules.find(m=>m.id===id)||modules[0];
   document.querySelectorAll('.nav-item').forEach(a=>{const active=a.hash==='#'+m.id;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
   $('personalization').hidden=m.id!=='personalizar';
-  document.querySelector('.workspace-canvas').hidden=['personalizar','calendario','expedientes','clientes','equipo'].includes(m.id);
+  document.querySelector('.workspace-canvas').hidden=['personalizar','calendario','expedientes','clientes','equipo','sinoe'].includes(m.id);
   $('casesModule').hidden=m.id!=='expedientes';
   if(m.id==='expedientes'){window.CejProCases.mount($('casesModule'));window.CejProCases.showRoute(route);}
   $('clientsModule').hidden=m.id!=='clientes';
   if(m.id==='clientes'){window.CejProClients.mount($('clientsModule'));window.CejProClients.showRoute(route);}
   $('teamModule').hidden=m.id!=='equipo';
   if(m.id==='equipo'){window.CejProTeam.mount($('teamModule'));window.CejProTeam.showRoute(route);}
-  document.querySelector('.page-heading').hidden=['expedientes','clientes','equipo'].includes(m.id)&&!!route.split('/')[1];
+  $('sinoeModule').hidden=m.id!=='sinoe';
+  if(m.id==='sinoe'){window.CejProSinoe.mount($('sinoeModule'));window.CejProSinoe.showRoute(route);}
+  document.querySelector('.page-heading').hidden=['expedientes','clientes','equipo','sinoe'].includes(m.id)&&!!route.split('/')[1]&&(m.id!=='sinoe'||!!document.querySelector('#sinoeScreen .sinoe-heading'));
   $('calendarModule').hidden=m.id!=='calendario';
   if(m.id==='calendario') window.CejProCalendar.mount($('calendarModule'));
   $('pageTitle').textContent=m.title||m.label;

@@ -96,3 +96,24 @@ El formulario mantiene título, tipo, fecha, hora y enlace; notas y completado e
 - El estado inactivo conserva el historial y las asignaciones. Este registro no crea cuentas, envía invitaciones ni aplica permisos reales.
 - Almacenamiento local independiente en `cejpro.team.v1`; sin cambios a los datos de clientes, cobros o expedientes.
 - Verificado en DOM: alta/edición, asignación/desasignación, filtros, duplicados de correo, búsqueda, nota, breadcrumb, ruta inexistente, persistencia y navegación entre módulos. Revisión visual pendiente por bloqueo de `file://` en la herramienta de navegador.
+
+
+## Etapa 10 · Casilla SINOE
+
+- Una entrada con usuario/contraseña y Conectar SINOE. No muestra opciones separadas de vista previa. El envío abre la bandeja de la maqueta; no autentica contra SINOE, no realiza solicitudes externas y descarta la contraseña.
+- Desvincular casilla vuelve a la entrada sin eliminar notificaciones, carpetas, notas, lectura ni configuración de la cuenta.
+- Organización separada por usuario normalizado (espacios exteriores eliminados y minúsculas). Se conserva el identificador de cuenta localmente, nunca la contraseña. El vínculo se recuerda al recargar.
+- Metadatos, carpetas, inicialización de ejemplos y filtros se guardan en claves locales por cuenta. Al reconectar se recuperan la carpeta seleccionada, búsqueda, filtro de lectura y página.
+- Migración de la versión anterior a la primera cuenta vinculada, conservando los originales; las siguientes cuentas no heredan esa información.
+- Dos notificaciones ficticias por nueva cuenta y tres PDF de ejemplo en `assets/documents/sinoe-demo/`. La maqueta conserva las carpetas personalizadas, movimientos, búsqueda, notas y enlaces a expedientes.
+- Abrir una notificación no cambia su lectura; el usuario elige Marcar leída / Marcar sin leer.
+- Verificado en DOM: conectar/desvincular, aislamiento entre dos cuentas, organización/lectura/notas, recuperación de filtros y carpeta, reconexión y recarga, migración y ausencia de contraseñas en almacenamiento.
+- Los PDF de ejemplo fueron renderizados e inspeccionados. La revisión visual de la página sigue pendiente por bloqueo de `file://` en la herramienta de navegador. La autenticación y sincronización reales todavía requieren implementación.
+
+
+### Bandeja tabular de SINOE
+
+- Tabla con selección, icono de lectura, correlativo, N.º notificación, N.º expediente, sumilla, O.J. (órgano jurisdiccional), fecha y acceso a documentos.
+- Selección individual o de todas las filas de la página y Mover a para organizar varias notificaciones juntas. La selección se limpia al cambiar de vista.
+- Conserva búsqueda, filtros, carpetas, persistencia por cuenta y enlaces a la ficha y documentos. Tabla con desplazamiento horizontal en pantallas pequeñas.
+- Verificado: columnas/celdas, selección parcial/todas, traslado múltiple, filtrado por carpeta, lectura, búsqueda y acceso a documentos.
