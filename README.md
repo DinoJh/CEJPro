@@ -117,3 +117,43 @@ El formulario mantiene título, tipo, fecha, hora y enlace; notas y completado e
 - Selección individual o de todas las filas de la página y Mover a para organizar varias notificaciones juntas. La selección se limpia al cambiar de vista.
 - Conserva búsqueda, filtros, carpetas, persistencia por cuenta y enlaces a la ficha y documentos. Tabla con desplazamiento horizontal en pantallas pequeñas.
 - Verificado: columnas/celdas, selección parcial/todas, traslado múltiple, filtrado por carpeta, lectura, búsqueda y acceso a documentos.
+
+
+## Etapa 11 · Redactar escritos
+
+- Listado con búsqueda, filtros y paginación; editor de hoja A4 con formato (negrita, cursiva, subrayado, tachado, títulos, listas, alineación, sangría y deshacer/rehacer).
+- Título, tipo, estado y expediente asociado en el panel lateral. Autoguardado local y guardado explícito; se conservan los borradores anteriores de texto plano.
+- Cinco estructuras editables: Demanda, Contestación de demanda, Escrito general, Solicitud simple y Presentación de documentos. Cada elección crea un borrador nuevo y puede completar el número del expediente seleccionado; no sobreescribe el documento actual ni incorpora hechos, normas o plazos inventados.
+- Las plantillas se definen en `modules/writings/templates.js` para ampliarlas sin alterar el editor.
+- PDF / Imprimir prepara solo el escrito con formato y página A4; el usuario elige Guardar como PDF en el cuadro nativo de impresión. También se puede descargar el texto como .txt.
+- El editor utiliza Quill 2.0.3 y DOMPurify 3.4.17, incluidos localmente con sus licencias en `assets/vendor/`. Documentación: https://quilljs.com/docs/quickstart y https://quilljs.com/docs/modules/toolbar
+- Datos locales en `cejpro.writings.v1`: texto y HTML de formato admitido, sin scripts, imágenes ni estilos externos. Límite de 50 000 caracteres.
+- Verificado con Quill real en DOM: plantillas, compatibilidad de texto anterior, formato, vista previa, deshacer/rehacer, límite de contenido, saneamiento HTML, preparación/limpieza de impresión, guardado al navegar y persistencia tras recarga.
+- La impresión nativa, la disposición visual y el PDF final requieren revisión en navegador; la herramienta bloquea el acceso a `file://`. El módulo prepara documentos editables y no modifica un PDF existente ni presenta escritos al Poder Judicial.
+
+
+### Ajuste de plantillas y borradores
+
+- Plantillas con encabezado judicial alineado en columna, expediente, especialista legal, cuaderno, escrito, sumilla y destinatario; secciones estructurales y firma/fecha.
+- Campos pendientes resaltados en rosa tenue y botón Completar campos para sustituir varias referencias de una vez, conservando formato. La operación se puede deshacer/rehacer.
+- Acciones explícitas Nuevo borrador, Guardar borrador, Editar borrador y Retomar borrador. Crear desde plantilla siempre genera un nuevo registro; se mantienen los textos anteriores.
+- Área de trabajo centrada con ancho máximo de 1280 px. Resaltados visibles en pantalla; el PDF impreso conserva el texto sin imprimir el fondo de los campos.
+- Verificado con Quill en DOM: las cinco estructuras, resaltados, completar campos con deshacer/rehacer, crear/guardar/editar/retomar y persistencia tras recarga.
+
+
+### Plantillas diferenciadas y biblioteca personal
+
+- Los formatos incorporados tienen contenido y disposición diferentes: demanda extensa; contestación breve con hechos y pruebas numerados como la referencia del usuario; escrito general abierto; solicitud en formato carta; presentación con carátula y relación de anexos.
+- El selector incluye vista previa que cambia con la elección y el expediente, para comparar las estructuras antes de crear el borrador.
+- Guardar como plantilla almacena nombre, descripción, tipo y formato del borrador en la biblioteca Mis plantillas. Cada uso crea un nuevo borrador y no modifica el original.
+- La opción Convertir el expediente y el cliente en campos reutilizables sustituye los datos del caso por marcadores. Al usar la plantilla con otro caso, estos marcadores se completan con el nuevo expediente/cliente; el usuario puede desactivar la conversión para conservar el texto exacto.
+- Desde Guardar como plantilla también se puede elegir Actualizar una plantilla existente. Se controlan nombres duplicados y se conserva el identificador original al actualizar.
+- Biblioteca local independiente en `cejpro.writingTemplates.v1`, implementada en `modules/writings/user-templates.js`. No se modifican los borradores guardados anteriormente.
+- Verificado con Quill real en DOM: cinco estructuras y vistas previas diferentes, alta/uso/actualización de formato personal, sustitución de datos con espacios no separables, copia independiente, nombres duplicados y persistencia tras recarga.
+
+
+### Eliminar borradores
+
+- Papelera en el listado y Eliminar borrador dentro del editor, con confirmación que identifica el documento.
+- La eliminación se aplica solo si se puede guardar el nuevo listado. Se cancela el autoguardado pendiente para evitar restaurar accidentalmente el documento eliminado.
+- Las plantillas personales se conservan. Verificado: cancelar/confirmar, eliminar desde listado/editor, fallo de persistencia, último borrador y ausencia de efectos sobre plantillas.
