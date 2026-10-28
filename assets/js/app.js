@@ -19,7 +19,7 @@
  function closeAccount(){ $('accountMenu').hidden=true; $('accountButton').setAttribute('aria-expanded','false'); }
  function updateBreadcrumb(m=modules.find(m=>m.id===location.hash.slice(1).split('/')[0])||modules[0]){
   const current=$('breadcrumbCurrent');current.replaceChildren();
-  const caseTitle=m.id==='expedientes'&&location.hash.split('/')[1]?document.querySelector('#caseDetailScreen .detail-heading h1')?.textContent:m.id==='clientes'&&location.hash.split('/')[1]?document.querySelector('#clientsScreen .client-heading h1')?.textContent:m.id==='equipo'&&location.hash.split('/')[1]?document.querySelector('#teamScreen .team-heading h1')?.textContent:m.id==='sinoe'&&location.hash.split('/')[1]?document.querySelector('#sinoeScreen .sinoe-heading h1')?.textContent:m.id==='escritos'&&location.hash.split('/')[1]?document.querySelector('#writingsScreen .writing-heading h1')?.textContent:null;
+  const caseTitle=m.id==='expedientes'&&location.hash.split('/')[1]==='carpetas'?document.querySelector('#caseListTitle')?.textContent:m.id==='expedientes'&&location.hash.split('/')[1]?document.querySelector('#caseDetailScreen .detail-heading h1')?.textContent:m.id==='clientes'&&location.hash.split('/')[1]?document.querySelector('#clientsScreen .client-heading h1')?.textContent:m.id==='equipo'&&location.hash.split('/')[1]?document.querySelector('#teamScreen .team-heading h1')?.textContent:m.id==='sinoe'&&location.hash.split('/')[1]?document.querySelector('#sinoeScreen .sinoe-heading h1')?.textContent:m.id==='escritos'&&location.hash.split('/')[1]?document.querySelector('#writingsScreen .writing-heading h1')?.textContent:null;
   if(caseTitle){const link=document.createElement('a');link.href='#'+m.id;link.textContent=m.label;const divider=document.createElement('span');divider.className='breadcrumb-divider';divider.textContent='/';const title=document.createElement('span');title.textContent=caseTitle;title.setAttribute('aria-current','page');current.append(link,divider,title);}
   else current.textContent=m.label;
   if(m.id==='clientes'&&location.hash.split('/')[2]==='cobros'&&location.hash.split('/')[3]){
@@ -57,7 +57,7 @@
   if(m.id==='sinoe'){window.CejProSinoe.mount($('sinoeModule'));window.CejProSinoe.showRoute(route);}
   $('writingsModule').hidden=m.id!=='escritos';
   if(m.id==='escritos'){window.CejProWritings.mount($('writingsModule'));window.CejProWritings.showRoute(route);}
-  document.querySelector('.page-heading').hidden=['expedientes','clientes','equipo','sinoe','escritos'].includes(m.id)&&!!route.split('/')[1]&&(m.id!=='sinoe'||!!document.querySelector('#sinoeScreen .sinoe-heading'));
+  document.querySelector('.page-heading').hidden=['expedientes','clientes','equipo','sinoe','escritos'].includes(m.id)&&!!route.split('/')[1]&&!(m.id==='expedientes'&&route.split('/')[1]==='carpetas')&&(m.id!=='sinoe'||!!document.querySelector('#sinoeScreen .sinoe-heading'));
   $('supportModule').hidden=m.id!=='soporte';
   if(m.id==='soporte')window.CejProSupport.mount($('supportModule'));
   $('calendarModule').hidden=m.id!=='calendario';
@@ -69,7 +69,7 @@
    if(actions){
     actions.classList.add('page-heading-actions');
     pageHeading.append(actions);
-    actions.hidden=m.id!==moduleId||(moduleId==='expedientes'&&!!route.split('/')[1]);
+    actions.hidden=m.id!==moduleId||(moduleId==='expedientes'&&!!route.split('/')[1]&&route.split('/')[1]!=='carpetas');
    }
   }
   $('pageTitle').textContent=m.title||m.label;

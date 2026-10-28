@@ -13,3 +13,52 @@
 .team-optional{width:100%}.team-optional summary{font-size:14px;color:var(--accent-text);cursor:pointer;line-height:1.7}
 .team-optional-fields{display:flex;flex-direction:column;gap:18px;padding-top:20px}
 #teamError{grid-column:1/-1;padding:0 26px 18px;margin:0}
+
+/* Grupos con nombre y selección de integrantes dentro del directorio. */
+.team-groups-heading,.team-selected-group{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 20px 14px}
+.team-groups-heading h2,.team-selected-group h2{font-size:15px;font-weight:600;overflow-wrap:anywhere}
+.team-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:0 20px 20px;border-bottom:1px solid var(--line)}
+.team-group-card{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:16px;text-align:left;min-width:0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.team-group-card strong{font-size:14px;font-weight:600;line-height:1.5;overflow-wrap:anywhere}.team-group-card span{font-size:12px;color:var(--muted)}
+.team-group-card:hover,.team-group-card.is-active{border-color:var(--accent-border);background:var(--accent-soft)}.team-group-card.is-active strong{color:var(--accent-text)}
+.team-selected-group{padding-bottom:0}.team-selected-group .detail-text-button{font-size:12px}
+.team-group-picker{border:0;padding:0;margin:0;min-width:0}.team-group-picker legend{font-size:13px;margin-bottom:10px}
+#teamGroupMembers{max-height:290px;overflow-y:auto}
+.cases-form-body .team-group-member{display:flex;flex-direction:row;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--soft-line)}
+.team-group-member input{width:16px!important;height:16px;flex:none;accent-color:var(--primary)}.team-group-member span{min-width:0;overflow-wrap:anywhere}.team-group-member strong{font-size:13px;font-weight:500}.team-group-member small{display:block;color:var(--muted);font-size:12px}
+@media(max-width:680px){.team-groups{grid-template-columns:repeat(2,minmax(0,1fr))}.team-groups-heading,.team-selected-group{flex-wrap:wrap}.team-groups-heading>button{font-size:12px}}
+
+.team-group-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap}#deleteTeamMember{margin-right:auto;font-size:13px}
+
+.team-group-item{border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.team-group-item.is-active{border-color:var(--accent-border);background:var(--accent-soft)}
+.team-group-item .team-group-card{border:0;border-radius:0;width:100%;flex:1}
+.team-group-rename{padding:8px 16px 12px;background:transparent;text-align:left;color:var(--accent-text);font:12px var(--font)}
+.team-group-rename:hover{text-decoration:underline;text-underline-offset:3px}
+
+.team-shared-folders{display:flex;gap:8px;flex-wrap:wrap;padding:14px 20px 0}
+.team-shared-folders>span{font-size:12px;padding:6px 9px;border-radius:5px;color:var(--accent-text);background:var(--accent-soft)}
+.team-shared-folders>p{font-size:13px;color:var(--muted);line-height:1.7}
+#teamGroupFolders{max-height:260px;overflow-y:auto}
+.team-inherited-folders{list-style:none;margin:0;padding:0 26px}
+.team-inherited-folders li{padding:18px 0;border-bottom:1px solid var(--soft-line);display:grid;grid-template-columns:1fr auto;gap:6px 14px}
+.team-inherited-folders strong{font-size:14px;font-weight:500}.team-inherited-folders span,.team-inherited-folders small{font-size:12px;color:var(--muted)}.team-inherited-folders small{grid-column:1/-1}
+
+.team-toolbar>.team-assign-folders{flex:none;background:var(--accent-soft);color:var(--accent-text);border-color:var(--accent-border);font-weight:600}.team-toolbar>.team-assign-folders:hover{border-color:var(--primary)}
+
+/* Las carpetas compartidas permiten abrir los expedientes que contienen. */
+.team-shared-folders{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.team-folder-access{border:1px solid var(--line);border-radius:7px;overflow:hidden;min-width:0;background:var(--surface)}
+.team-folder-access>summary{cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--accent-soft);color:var(--accent-text)}
+.team-folder-access>summary::after{content:'⌄';margin-left:6px}.team-folder-access[open]>summary::after{transform:rotate(180deg)}
+.team-folder-access>summary>.icon{width:17px;height:17px}.team-folder-access>summary>strong{font-size:13px;font-weight:600;flex:1;overflow-wrap:anywhere}.team-folder-access>summary>span:last-of-type{font-size:12px;white-space:nowrap}
+.team-folder-access ul{list-style:none;padding:0 14px;margin:0}
+.team-folder-access li+li{border-top:1px solid var(--soft-line)}
+.team-folder-access li a{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+.team-folder-access li a>span:first-child{min-width:0}.team-folder-access li strong{display:block;font-size:13px;font-weight:500;overflow-wrap:anywhere}.team-folder-access li small{display:block;font-size:12px;color:var(--muted);margin-top:5px;overflow-wrap:anywhere}
+.team-case-open{font-size:12px;color:var(--accent-text);white-space:nowrap}.team-folder-access li a:hover strong{color:var(--accent-text)}
+.team-folder-source{font-size:12px;line-height:1.7;color:var(--muted);padding:12px 14px 4px}
+.team-member-folder-access{padding:20px 26px;display:grid;gap:12px}
+@media(max-width:680px){.team-member-folder-access{padding:18px 20px}.team-folder-access li a{align-items:flex-start;flex-wrap:wrap;gap:8px}}
+
+.team-folder-full{padding:12px 14px 0}.team-folder-full a{font-size:13px}

@@ -85,7 +85,12 @@
   notify('Carpeta creada.');$('folderDialog').close();render();
  }
  function showRoute(route='expedientes'){
-  const parts=route.split('/');let id='';try{id=parts[1]?decodeURIComponent(parts[1]):'';}catch(_){id='invalid';}
+  const parts=route.split('/');
+  if(parts[1]==='carpetas'){
+   let requested='';try{requested=decodeURIComponent(parts[2]||'');}catch(_){}
+   folder=state.folders.some(f=>f.id===requested)?requested:'all';status='all';search='';page=1;$('caseSearch').value='';$('caseStatus').value='all';$('caseListScreen').hidden=false;$('caseDetailScreen').hidden=true;render();return;
+  }
+  let id='';try{id=parts[1]?decodeURIComponent(parts[1]):'';}catch(_){id='invalid';}
   $('caseListScreen').hidden=!!id;$('caseDetailScreen').hidden=!id;
   if(id)window.CejProCaseDetail.render(id,parts[2]||'resumen');
  }
