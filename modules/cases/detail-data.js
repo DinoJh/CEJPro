@@ -3,7 +3,7 @@ window.CejProCaseDetailData = (() => {
  const key='cejpro.caseDetails.v1',records=new Map();
  const roles=['Demandante','Demandado','Solicitante','Denunciante','Denunciado','Abogado/a','Representante','Testigo','Otro'];
  const normalize=value=>window.CejProCasesData.normalize(value);
- function valid(r){return r&&Array.isArray(r.folders)&&r.folders.every(f=>f&&typeof f.id==='string'&&typeof f.name==='string'&&f.name.trim()&&f.name.length<=40)&&Array.isArray(r.parties)&&r.parties.every(p=>p&&typeof p.id==='string'&&typeof p.name==='string'&&p.name.trim()&&p.name.length<=180&&roles.includes(p.role)&&typeof p.document==='string'&&p.document.length<=40&&typeof p.contact==='string'&&p.contact.length<=180);}
+ function valid(r){return r&&Array.isArray(r.folders)&&r.folders.every(f=>f&&typeof f.id==='string'&&typeof f.name==='string'&&f.name.trim()&&f.name.length<=40)&&Array.isArray(r.parties)&&r.parties.every(p=>p&&typeof p.id==='string'&&typeof p.name==='string'&&p.name.trim()&&p.name.length<=180&&typeof p.role==='string'&&p.role.trim()&&p.role.length<=80&&typeof p.document==='string'&&p.document.length<=40&&typeof p.contact==='string'&&p.contact.length<=180);}
  try{const saved=JSON.parse(localStorage.getItem(key));if(saved&&typeof saved==='object'&&!Array.isArray(saved))for(const [id,r] of Object.entries(saved))if(valid(r))records.set(id,r);}catch(_){}
  function get(id){if(!records.has(id))records.set(id,{folders:[],parties:[]});return records.get(id);}
  function save(){try{localStorage.setItem(key,JSON.stringify(Object.fromEntries(records)));return true;}catch(_){return false;}}

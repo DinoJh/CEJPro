@@ -22,6 +22,16 @@
   const caseTitle=m.id==='expedientes'&&location.hash.split('/')[1]?document.querySelector('#caseDetailScreen .detail-heading h1')?.textContent:m.id==='clientes'&&location.hash.split('/')[1]?document.querySelector('#clientsScreen .client-heading h1')?.textContent:m.id==='equipo'&&location.hash.split('/')[1]?document.querySelector('#teamScreen .team-heading h1')?.textContent:m.id==='sinoe'&&location.hash.split('/')[1]?document.querySelector('#sinoeScreen .sinoe-heading h1')?.textContent:m.id==='escritos'&&location.hash.split('/')[1]?document.querySelector('#writingsScreen .writing-heading h1')?.textContent:null;
   if(caseTitle){const link=document.createElement('a');link.href='#'+m.id;link.textContent=m.label;const divider=document.createElement('span');divider.className='breadcrumb-divider';divider.textContent='/';const title=document.createElement('span');title.textContent=caseTitle;title.setAttribute('aria-current','page');current.append(link,divider,title);}
   else current.textContent=m.label;
+  if(m.id==='clientes'&&location.hash.split('/')[2]==='cobros'&&location.hash.split('/')[3]){
+   const heading=document.querySelector('#clientBilling .billing-case-heading h3');
+   if(heading&&caseTitle){
+    const clientNode=current.querySelector('[aria-current]'),link=document.createElement('a');
+    link.href='#clientes/'+location.hash.split('/')[1]+'/cobros';link.textContent=caseTitle;clientNode.replaceWith(link);
+    const divider=document.createElement('span');divider.className='breadcrumb-divider';divider.textContent='/';
+    const title=document.createElement('span');title.textContent=heading.textContent;title.setAttribute('aria-current','page');current.append(divider,title);
+   }
+  }
+
  }
  window.addEventListener('cejpro:case-render',()=>updateBreadcrumb());
  window.addEventListener('cejpro:client-render',()=>updateBreadcrumb());

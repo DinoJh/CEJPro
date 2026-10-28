@@ -5,3 +5,31 @@
 @media(max-width:680px){.client-tabs{padding:0 20px}.billing-summary{padding:20px 0}.billing-summary>div{padding:0 14px}.billing-summary strong{font-size:19px}.billing-summary span{font-size:11px;line-height:1.6}.billing-heading{padding:20px;align-items:flex-start;flex-wrap:wrap}.billing-table{min-width:750px}.billing-footnote{padding:18px 20px}}
 
 .billing-summary strong .billing-currency-amount{font:inherit;line-height:1.6;color:inherit;margin:0}.billing-summary strong .billing-currency-amount+.billing-currency-amount{margin-top:4px}#chargeCurrency:disabled{opacity:.75}
+
+/* Honorarios, pagos y saldos separados por cada caso del cliente. */
+.billing-case-group{border-top:1px solid var(--line)}
+.billing-case-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 26px 16px}
+.billing-case-heading>div{min-width:0}.billing-case-heading h3{font-size:16px;font-weight:600;line-height:1.5;overflow-wrap:anywhere}
+.billing-case-heading p{font-size:12px;color:var(--muted);margin-top:5px;overflow-wrap:anywhere}
+.billing-case-heading button{flex-shrink:0}
+.billing-case-totals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0;padding:0 26px 20px}
+.billing-case-totals dt{font-size:12px;color:var(--muted);margin-bottom:7px}
+.billing-case-totals dd{margin:0;font-size:16px;font-weight:600;line-height:1.6;overflow-wrap:anywhere}
+.billing-case-totals dd span{display:block}.billing-case-totals>div:last-child dd{color:var(--accent-text)}
+.billing-case-empty{padding:0 26px 22px;font-size:13px;color:var(--muted);line-height:1.7}
+.billing-case-group .billing-table tr:last-child td{border-bottom:0}
+@media(max-width:680px){.billing-case-heading{padding:20px;flex-wrap:wrap}.billing-case-totals{padding:0 20px 18px;gap:10px}.billing-case-totals dd{font-size:14px}.billing-case-empty{padding:0 20px 20px}}
+
+/* Tarjetas de acceso: los movimientos se muestran al abrir cada caso. */
+.billing-case-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;padding:0 26px 26px;background:var(--surface)}
+.billing-case-card{display:flex;flex-direction:column;min-width:0;padding:20px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.billing-case-card:hover{border-color:var(--accent-border);background:var(--accent-soft)}
+.billing-case-card-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.billing-case-card-label{font-size:12px;color:var(--muted)}
+.billing-case-card h3{font-size:17px;font-weight:600;line-height:1.5;overflow-wrap:anywhere}
+.billing-case-card>p{font-size:12px;color:var(--muted);line-height:1.7;margin:7px 0 20px;overflow-wrap:anywhere}
+.billing-case-card-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;border-top:1px solid var(--line);padding-top:16px;margin-top:auto}
+.billing-case-card-bottom>div>span{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+.billing-case-card-bottom strong{display:block;font-size:19px;font-weight:600;line-height:1.6;color:var(--accent-text);overflow-wrap:anywhere}
+.billing-card-open{font-size:12px;color:var(--accent-text);white-space:nowrap}
+@media(max-width:680px){.billing-case-grid{grid-template-columns:1fr;padding:0 20px 20px}.billing-case-card{padding:18px}}

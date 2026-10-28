@@ -5,3 +5,11 @@
 
 /* Contenido más compacto y centrado. */
 @media(min-width:1000px){body:has(#teamModule:not([hidden])) .content{max-width:980px;padding-left:28px;padding-right:28px}}
+
+.team-required-cases{border:0;border-top:1px solid var(--line);margin:4px 0 0;padding:18px 0 0;min-width:0}
+.team-required-cases summary{cursor:pointer;font-size:13px;padding:0 8px 0 0;color:var(--ink)}
+.team-required-cases summary span{font-size:12px;color:var(--muted)}
+.team-required-cases .team-case-picker{max-height:270px;overflow-y:auto;margin-top:8px}
+.team-optional{width:100%}.team-optional summary{font-size:14px;color:var(--accent-text);cursor:pointer;line-height:1.7}
+.team-optional-fields{display:flex;flex-direction:column;gap:18px;padding-top:20px}
+#teamError{grid-column:1/-1;padding:0 26px 18px;margin:0}

@@ -15,3 +15,20 @@
 @media(min-width:1200px){body:has(#sinoeModule:not([hidden])) .content{max-width:1160px;padding-left:32px;padding-right:32px}}
 @media(max-width:1000px){.sinoe-layout{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:680px){.sinoe-table-tools{padding:12px 18px}.sinoe-table td{padding:17px 7px}}
+
+/* Conexión más centrada, con el título alineado a su tarjeta. */
+@media(min-width:1000px){
+ body:has(#sinoeModule:not([hidden]) .sinoe-connect) .content{max-width:980px;padding-left:28px;padding-right:28px}
+ .sinoe-connect{padding:30px;gap:32px}
+}
+
+.sinoe-folder-row{display:flex;align-items:center;gap:2px;min-width:0}
+.sinoe-folder-row .sinoe-folder{flex:1;min-width:0;gap:6px}
+.sinoe-folder-edit{flex:none;width:24px;height:30px;background:transparent;color:var(--muted);border-radius:4px;font-size:18px}
+.sinoe-folder-edit:hover{background:var(--hover);color:var(--accent-text)}
+#deleteSinoeFolder{margin-right:auto}
+
+.sinoe-folder-search{display:block;margin:10px 0 12px}
+.sinoe-folder-search input{width:100%;min-width:0;padding:9px 7px;border:1px solid var(--line);border-radius:5px;background:var(--surface);color:var(--ink);font:12px var(--font)}
+.sinoe-folder-search input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.sinoe-folder-search-empty{padding:10px 7px;font-size:12px;line-height:1.6;color:var(--muted)}

@@ -21,15 +21,45 @@ window.CejProSinoeData=(()=>{
  function load(){try{const data=JSON.parse(localStorage.getItem(accountKey(key)));if(valid(data))return data.map(n=>({...n,folderId:typeof n.folderId==='string'?n.folderId:''}));}catch(_){}return [];}
  function save(items){try{localStorage.setItem(accountKey(key),JSON.stringify(items));return true;}catch(_){return false;}}
  const folderKey='cejpro.sinoe.folders.v1';
- function loadFolders(){try{const data=JSON.parse(localStorage.getItem(accountKey(folderKey))),ids=new Set(),names=new Set();if(Array.isArray(data)&&data.every(f=>{if(!f||typeof f.id!=='string'||!f.id||typeof f.name!=='string'||!f.name.trim()||f.name.length>40||ids.has(f.id)||names.has(window.CejProCasesData.normalize(f.name)))return false;ids.add(f.id);names.add(window.CejProCasesData.normalize(f.name));return true;}))return data;}catch(_){}return [];}
+ function loadFolders(){try{const data=JSON.parse(localStorage.getItem(accountKey(folderKey))),ids=new Set(),names=new Set();if(Array.isArray(data)&&data.every(f=>{if(!f||typeof f.id!=='string'||!f.id||typeof f.name!=='string'||!f.name.trim()||f.name.length>(f.autoCaseKey?180:40)||ids.has(f.id)||names.has(window.CejProCasesData.normalize(f.name)))return false;ids.add(f.id);names.add(window.CejProCasesData.normalize(f.name));return true;}))return data;}catch(_){}return [];}
  function saveFolders(folders){try{localStorage.setItem(accountKey(folderKey),JSON.stringify(folders));return true;}catch(_){return false;}}
+ // Agrupa por número de expediente, respetando la organización manual.
+ function organizeByCase(items,folders){
+  if(!account)return {items,folders};
+  const all=window.CejProCasesData.load().cases;
+  let foldersChanged=false,itemsChanged=false;
+  for(const n of items){
+   if(n.folderMode==='manual')continue;
+   const current=folders.find(f=>f.id===n.folderId);
+   if(current&&!current.autoCaseKey)continue;
+   const c=all.find(c=>c.id===n.caseId),number=String(n.caseNumber||c?.number||'').trim();
+   if(!number||number.length>180)continue;
+   const normalized=number.normalize('NFKC').replace(/[‐-―]/g,'-').replace(/\s+/g,'').toUpperCase();
+   let target=folders.find(f=>f.autoCaseKey===normalized);
+   if(!target){
+    target=folders.find(f=>window.CejProCasesData.normalize(f.name)===window.CejProCasesData.normalize(number));
+    if(!target){target={id:'sinoe-case-'+encodeURIComponent(normalized),name:number,autoCaseKey:normalized};folders.push(target);foldersChanged=true;}
+   }
+   if(n.folderId!==target.id){n.folderId=target.id;itemsChanged=true;}
+  }
+  const occupied=new Set(items.map(n=>n.folderId));
+  const kept=folders.filter(f=>!f.autoCaseKey||occupied.has(f.id));
+  if(kept.length!==folders.length){folders=kept;foldersChanged=true;}
+  if(foldersChanged)saveFolders(folders);
+  if(itemsChanged)save(items);
+  return {items,folders};
+ }
  function loadView(){try{const v=JSON.parse(localStorage.getItem(accountKey('cejpro.sinoe.view.v1')));if(v&&typeof v.folder==='string'&&['all','read','unread'].includes(v.filter)&&typeof v.search==='string'&&v.search.length<=180&&Number.isSafeInteger(v.page)&&v.page>0)return v;}catch(_){}return {folder:'all',filter:'all',search:'',page:1};}
  function saveView(view){try{localStorage.setItem(accountKey('cejpro.sinoe.view.v1'),JSON.stringify(view));}catch(_){} }
  function seedExamples(items){
-  let seeded=false;try{seeded=localStorage.getItem(accountKey('cejpro.sinoe.examples.v1'))==='1';}catch(_){}if(seeded)return items;
+  let seeded=false;try{seeded=localStorage.getItem(accountKey('cejpro.sinoe.examples.v1'))==='3';}catch(_){}if(seeded)return items;
   const all=window.CejProCasesData.load().cases,today=window.CejProBillingData.today();
   const examples=[{id:'sinoe-example-1',title:'Resolución: programación de audiencia',number:'EJEMPLO-001',date:today,organ:'Juzgado de Trabajo · Ejemplo',caseId:all[0]?.id||'',note:'Revisar la resolución y sus documentos adjuntos.',read:false,folderId:'',demo:true,attachments:[{id:'sinoe-demo-audiencia-resolucion',name:'Resolución - audiencia.pdf',size:0},{id:'sinoe-demo-audiencia-anexo',name:'Anexo de la notificación.pdf',size:0}]},{id:'sinoe-example-2',title:'Resolución: traslado de escrito',number:'EJEMPLO-002',date:today,organ:'Juzgado Civil · Ejemplo',caseId:all[1]?.id||'',note:'',read:true,folderId:'',demo:true,attachments:[{id:'sinoe-demo-traslado-resolucion',name:'Resolución - traslado.pdf',size:0}]}];
-  const merged=[...items,...examples.filter(n=>!items.some(x=>x.id===n.id))];const saved=save(merged);if(saved)try{localStorage.setItem(accountKey('cejpro.sinoe.examples.v1'),'1');}catch(_){}return merged;
+  const reference=items.find(n=>n.id==='sinoe-example-1')||examples[0];
+  examples.push({id:'sinoe-example-3',title:'Resolución: traslado de escrito',number:'EJEMPLO-003',date:today,organ:reference.organ,caseId:reference.caseId,caseNumber:reference.caseNumber||'',note:'Segunda notificación del mismo expediente que la programación de audiencia.',read:true,folderId:'',demo:true,attachments:[{id:'sinoe-demo-traslado-resolucion',name:'Resolución - traslado.pdf',size:0}]});
+  const merged=[...items,...examples.filter(n=>!items.some(x=>x.id===n.id))];const exampleNumber='00705-2025-0-2101-JR-CI-02',exampleCase=all.find(c=>String(c.number||'').trim().toUpperCase()===exampleNumber);
+  for(const n of merged){if(['sinoe-example-1','sinoe-example-3'].includes(n.id)){n.caseNumber=exampleNumber;n.caseId=exampleCase?.id||'';n.organ='Juzgado Civil · Ejemplo';n.folderId='';n.folderMode='auto';}}
+  const saved=save(merged);if(saved)try{localStorage.setItem(accountKey('cejpro.sinoe.examples.v1'),'3');}catch(_){}return merged;
  }
- return {load,save,date,loadFolders,saveFolders,seedExamples,linkedAccount,link,unlink,loadView,saveView};
+ return {organizeByCase,load,save,date,loadFolders,saveFolders,seedExamples,linkedAccount,link,unlink,loadView,saveView};
 })();
