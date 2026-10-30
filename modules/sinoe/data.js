@@ -49,7 +49,7 @@ window.CejProSinoeData=(()=>{
   if(itemsChanged)save(items);
   return {items,folders};
  }
- function loadView(){try{const v=JSON.parse(localStorage.getItem(accountKey('cejpro.sinoe.view.v1')));if(v&&typeof v.folder==='string'&&['all','read','unread'].includes(v.filter)&&typeof v.search==='string'&&v.search.length<=180&&Number.isSafeInteger(v.page)&&v.page>0)return v;}catch(_){}return {folder:'all',filter:'all',search:'',page:1};}
+ function loadView(){try{const v=JSON.parse(localStorage.getItem(accountKey('cejpro.sinoe.view.v1')));if(v&&typeof v.folder==='string'&&['all','read','unread'].includes(v.filter)&&typeof v.search==='string'&&v.search.length<=180&&Number.isSafeInteger(v.page)&&v.page>0)return {...v,organFilter:typeof v.organFilter==='string'&&v.organFilter.length<=200?v.organFilter:'all',monthFilter:/^(all|0[1-9]|1[0-2])$/.test(v.monthFilter)?v.monthFilter:'all',yearFilter:/^(all|[0-9]{4})$/.test(v.yearFilter)?v.yearFilter:'all'};}catch(_){}return {folder:'all',filter:'all',search:'',page:1};}
  function saveView(view){try{localStorage.setItem(accountKey('cejpro.sinoe.view.v1'),JSON.stringify(view));}catch(_){} }
  function seedExamples(items){
   let seeded=false;try{seeded=localStorage.getItem(accountKey('cejpro.sinoe.examples.v1'))==='3';}catch(_){}if(seeded)return items;

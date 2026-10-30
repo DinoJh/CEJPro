@@ -1,0 +1,18 @@
+/* Filtros visibles solo al desplegar su botón, alineados con las tablas. */
+.table-filters-toggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;flex:none}
+.table-filters-toggle.is-filtered,.table-filters-toggle[aria-expanded="true"]{background:var(--accent-soft);color:var(--accent-text);border-color:var(--accent-border)}
+.table-filter-count{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:9px;background:var(--primary);color:#fff;font-size:11px}
+.table-filters-panel{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:16px;margin:0 var(--table-gutter,20px) 18px;padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+.table-filter-fields{display:flex;align-items:flex-end;flex-wrap:wrap;gap:16px;min-width:0}.table-filters-panel .cases-status-filter{display:flex;flex-direction:column;gap:7px;min-width:0;flex:0 0 200px;width:200px;max-width:100%}
+.table-filter-label{font-size:12px;font-weight:500;color:var(--muted)}
+.table-filters-panel select{width:100%;max-width:none;min-width:0;background:var(--surface);color:var(--ink);font:13px var(--font);padding:10px;border:1px solid var(--line);border-radius:5px}
+.table-filter-clear{padding:10px 0;font-size:13px;justify-self:end;align-self:end;white-space:nowrap}.table-filter-clear:disabled{opacity:.45;cursor:default}
+.billing-filter-toolbar{display:flex;justify-content:flex-end;padding:0 var(--table-gutter) 14px}
+@media(max-width:680px){.table-filters-panel{grid-template-columns:minmax(0,1fr);gap:16px;padding:12px}.table-filters-panel .cases-status-filter{flex-basis:180px;width:180px}}
+
+/* Los cuatro filtros de SINOE comparten una fila compacta. */
+#tableFilters-sinoe .table-filter-fields{display:grid;justify-content:start;grid-template-columns:minmax(0,135px) minmax(0,210px) minmax(0,145px) minmax(0,125px);gap:16px;align-items:end}
+#tableFilters-sinoe .cases-status-filter{width:auto;max-width:none;min-width:0}
+#tableFilters-sinoe select{text-overflow:ellipsis;padding-left:8px;padding-right:8px}
+@media(max-width:680px){#tableFilters-sinoe .table-filter-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){#tableFilters-sinoe .table-filter-fields{grid-template-columns:minmax(0,1fr)}}
