@@ -177,3 +177,13 @@ El formulario mantiene título, tipo, fecha, hora y enlace; notas y completado e
 - Estados vacíos con accesos a cada módulo y adaptación a los tres temas y pantallas pequeñas.
 - Verificado en DOM: Inicio predeterminado, cuatro tarjetas, mes/fecha, agenda, eventos/alta, historial de casos, orden de borradores, actualización de lectura, ocultación de notificaciones al desvincular y estados vacíos. Revisión visual en navegador pendiente por bloqueo de `file://` en la herramienta.
 - Soporte, Perfil y Configuración quedan pendientes de trabajo adicional por indicación del usuario.
+
+
+## Identidades CEJ · Prototipo local
+
+- Navegación: Expedientes → Mis expedientes / Identidades CEJ. El botón superior abre el mismo gestor (`#identidades`).
+- Identidades de prueba con alias, DNI o carné de extranjería y campos de validación según tipo. DNI admite código de 1 a 3 dígitos. Búsqueda, filtro por documento, edición, expedientes vinculados y eliminación con comprobación de vínculos.
+- Cada expediente guarda solo `identityId` opcional; una identidad puede reutilizarse en varios expedientes. Los registros anteriores no necesitan migración y conservan su cliente, carpeta, documentos y notas.
+- Crear una identidad desde el formulario de un expediente conserva el borrador y selecciona la identidad nueva. La parte o cliente sigue siendo un dato independiente.
+- Almacenamiento: `cejpro.identities.v1` en el navegador. Usar datos ficticios: no hay sincronización con CEJ o la extensión, ni validación oficial de documentos, ni registro de consultas o último uso.
+- Verificado funcionalmente con DOM: alta DNI/CE, duplicados, campos condicionales, selección y reutilización, bloqueo de eliminación con vínculos, reasignación, eliminación libre, persistencia, búsqueda y submenú en escenarios móviles/compactos y los tres temas. La revisión visual real de `file://` sigue pendiente por la restricción de la herramienta de navegador.

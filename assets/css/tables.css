@@ -4,7 +4,7 @@
 .cases-panel,.sinoe-main{--table-gutter:22px}
 .clients-panel,.team-panel,.writings-panel{--table-gutter:20px}
 .billing-case-group{--table-gutter:26px}
-:is(.cases-table-wrap,.clients-table-wrap,.team-table-wrap,.sinoe-table-wrap,.writings-table-wrap,.billing-table-wrap){
+:is(.cases-table-wrap,.clients-table-wrap,.team-table-wrap,.sinoe-table-wrap,.writings-table-wrap,.billing-table-wrap,.identities-table-wrap){
  margin:0 var(--table-gutter) 18px;
  border:1px solid var(--table-card-line);
  border-radius:8px;
@@ -12,21 +12,21 @@
  overflow-x:auto;
  isolation:isolate;
 }
-:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table){
+:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table,.identities-table){
  width:100%;border-collapse:separate;border-spacing:0;text-align:left;
 }
-:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table) th{
+:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table,.identities-table) th{
  text-align:left;vertical-align:middle;background:var(--table-heading-bg);color:var(--table-heading-ink);
  font:600 12px/1.5 var(--font);padding:13px 14px;border:0;border-bottom:1px solid var(--table-card-line);
 }
-:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table) td{
+:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table,.identities-table) td{
  text-align:left;border-right:0;border-bottom:1px solid var(--soft-line);
 }
-:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table) th:first-child,
-:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table) td:first-child{padding-left:16px}
-:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table) th:last-child,
-:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table) td:last-child{padding-right:16px}
-:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table) tbody tr:last-child td{border-bottom:0}
+:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table,.identities-table) th:first-child,
+:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table,.identities-table) td:first-child{padding-left:16px}
+:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table,.identities-table) th:last-child,
+:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table,.identities-table) td:last-child{padding-right:16px}
+:is(.cases-table,.clients-table,.team-table,.sinoe-table,.writings-table,.billing-table,.identities-table) tbody tr:last-child td{border-bottom:0}
 /* El lateral de carpetas no altera el margen interior de la tabla. */
 .sinoe-folder-heading{padding:22px var(--table-gutter) 0}
 .sinoe-filters{padding:20px var(--table-gutter);border-bottom:0}

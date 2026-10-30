@@ -1,11 +1,12 @@
 /* Catálogo único: agregar una sección aquí actualiza la navegación y su pantalla. */
 window.CejProModules = [
  {id:'inicio',label:'Inicio',icon:'home',title:'Tu espacio, en orden.',description:'Un lugar para organizar tu práctica legal.',emptyTitle:'Aquí comienza tu espacio de trabajo',emptyDescription:'La estructura está lista. Cada sección irá tomando forma, paso a paso.'},
- {id:'calendario',label:'Calendario y plazos',icon:'calendar',description:'Tus audiencias, reuniones y vencimientos, en un solo lugar.'},
- {id:'expedientes',label:'Casos y expedientes',icon:'folder',description:'Tus asuntos legales, organizados y siempre a mano.'},
+ {id:'calendario',label:'Calendario',icon:'calendar',description:'Tus audiencias, reuniones y vencimientos, en un solo lugar.'},
+ {id:'expedientes',label:'Expedientes',icon:'folder',description:'Tus asuntos legales, organizados y siempre a mano.'},
+ {id:'identidades',label:'Identidades CEJ',icon:'user',parent:'expedientes',description:'Identidades reutilizables para tus consultas CEJ.'},
  {id:'sinoe',label:'Casilla SINOE',icon:'inbox',description:'Un espacio para organizar las notificaciones de tus expedientes.'},
- {id:'clientes',label:'Clientes y cobros',icon:'users',description:'Un espacio para tus clientes y el seguimiento de honorarios.'},
- {id:'equipo',label:'Organización y equipo',icon:'team',description:'Un espacio compartido para organizar tu estudio.'},
+ {id:'clientes',label:'Clientes',icon:'users',description:'Un espacio para tus clientes y el seguimiento de honorarios.'},
+ {id:'equipo',label:'Equipo',icon:'team',description:'Un espacio compartido para organizar tu estudio.'},
  {id:'escritos',label:'Redactar escritos',icon:'file',description:'Un espacio para preparar y organizar tus escritos.'},
  {id:'soporte',label:'Soporte',icon:'help',description:'Un espacio para encontrar ayuda cuando la necesites.',utility:true},
  {id:'perfil',label:'Mi perfil',icon:'user',description:'Un espacio para tu información personal y profesional.',account:true},

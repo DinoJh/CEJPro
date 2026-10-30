@@ -20,7 +20,7 @@ window.CejProCasesData = (() => {
   const ids=new Set(),names=new Set();
   for(const f of state.folders){if(!f||typeof f.id!=='string'||!f.id||typeof f.name!=='string'||!f.name.trim()||f.name.length>40||ids.has(f.id)||names.has(normalize(f.name)))return false;ids.add(f.id);names.add(normalize(f.name));}
   const caseIds=new Set();
-  return state.cases.every(c=>{if(!c||typeof c.id!=='string'||!c.id||caseIds.has(c.id)||typeof c.title!=='string'||!c.title.trim()||c.title.length>120||!['number','client'].every(k=>typeof c[k]==='string'&&c[k].length<=180)||(c.note!==undefined&&(typeof c.note!=='string'||c.note.length>2000))||!Object.hasOwn(statuses,c.status)||(c.folderId!==''&&!ids.has(c.folderId)))return false;caseIds.add(c.id);return true;});
+  return state.cases.every(c=>{if(!c||typeof c.id!=='string'||!c.id||caseIds.has(c.id)||typeof c.title!=='string'||!c.title.trim()||c.title.length>120||!['number','client'].every(k=>typeof c[k]==='string'&&c[k].length<=180)||(c.note!==undefined&&(typeof c.note!=='string'||c.note.length>2000))||(c.identityId!==undefined&&typeof c.identityId!=='string')||!Object.hasOwn(statuses,c.status)||(c.folderId!==''&&!ids.has(c.folderId)))return false;caseIds.add(c.id);return true;});
  }
  function load(){try{const saved=JSON.parse(localStorage.getItem(key));if(valid(saved))return saved;}catch(_){}return demo();}
  function save(state){try{localStorage.setItem(key,JSON.stringify(state));return true;}catch(_){return false;}}
