@@ -46,3 +46,12 @@
 @media(max-width:600px){.cases-list-shell .cases-top{padding:14px 18px}.cases-list-shell .cases-local-note{padding:16px 18px}.cases-list-shell>.cases-notice{padding:0 18px 16px}.cases-list-shell .cases-layout{gap:0}}
 
 .cases-list-shell .cases-top{justify-content:flex-end}
+
+/* Datos opcionales del expediente, agrupados en la columna principal. */
+.cases-additional-fields{border-top:1px solid var(--line);padding-top:6px}
+.cases-additional-fields summary{display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;cursor:pointer;padding:10px 0;color:var(--accent-text);font-size:13px}
+.cases-additional-fields summary::-webkit-details-marker{display:none}
+.cases-additional-fields summary:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.cases-additional-fields summary svg{width:18px;height:18px;flex:none}
+.cases-additional-fields[open] summary svg{transform:rotate(180deg)}
+.cases-additional-body{display:flex;flex-direction:column;gap:17px;padding-top:7px}
