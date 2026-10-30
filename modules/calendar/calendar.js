@@ -56,6 +56,7 @@
   $('upcomingEvents').innerHTML=upcoming.length?upcoming.map(e=>`<button class="cal-upcoming type-${e.type}" data-event="${escape(e.id)}"><span class="cal-upcoming-date"><strong>${D.fromKey(e.date).getDate()}</strong><small>${D.fromKey(e.date).toLocaleDateString('es-PE',{month:'short'}).replace('.','')}</small></span><span><strong>${escape(e.title)}</strong><small>${D.singular[e.type]} · ${escape(e.time||'Sin hora')}</small></span></button>`).join(''):'<p class="cal-day-empty">No hay próximos compromisos.</p>';
  }
  function openEditor(id){
+  if(!id&&!window.CejProWorkspaces.canEdit())return;
   const e=events.find(item=>item.id===id),form=$('eventForm');form.reset();form.dataset.editing=e?.id||'';
   $('eventDialogTitle').textContent=e?'Detalle del evento':'Nuevo evento';$('deleteEvent').hidden=!e;
   $('eventAdditional').open=false; $('eventCompletion').hidden=!e;

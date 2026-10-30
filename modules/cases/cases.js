@@ -71,6 +71,7 @@
  }
  function populateIdentities(selected=''){const identities=window.CejProIdentitiesData.load(),select=$('caseIdentitySelect');select.innerHTML='<option value="">Sin identidad asignada</option>'+identities.map(x=>`<option value="${esc(x.id)}">${esc(window.CejProIdentitiesData.label(x))}</option>`).join('');if(selected&&!identities.some(x=>x.id===selected))select.insertAdjacentHTML('beforeend',`<option value="${esc(selected)}">Identidad no disponible</option>`);select.value=selected;}
  function openCase(id){
+  if(!window.CejProWorkspaces.canEdit())return;
   const form=$('caseForm'),c=state.cases.find(c=>c.id===id);form.reset();$('caseAdditionalFields').open=false;form.dataset.editing=c?.id||'';
   $('caseDialogTitle').textContent=c?'Editar expediente':'Nuevo expediente';
   const values=c||{title:'',number:'',client:'',status:'active',folderId:state.folders.some(f=>f.id===folder)?folder:'',note:''};

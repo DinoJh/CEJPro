@@ -2,8 +2,8 @@
  const C=window.CejProCalendarData,esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  let host,selected=C.dateKey(new Date()),month=new Date(new Date().getFullYear(),new Date().getMonth(),1,12);
  const key='cejpro.recentCases.v1',$=id=>host.querySelector('#'+id),icon=name=>`<span class="icon">${window.CejProIcon(name)}</span>`;
- function history(){try{const ids=JSON.parse(localStorage.getItem(key));if(Array.isArray(ids)&&ids.every(id=>typeof id==='string'))return ids;}catch(_){}return [];}
- function recordCase(id){if(!window.CejProCasesData.load().cases.some(c=>c.id===id))return;const ids=[id,...history().filter(x=>x!==id)].slice(0,20);try{localStorage.setItem(key,JSON.stringify(ids));}catch(_){} }
+ function history(){try{const ids=JSON.parse(window.CejProStorage.getItem(key));if(Array.isArray(ids)&&ids.every(id=>typeof id==='string'))return ids;}catch(_){}return [];}
+ function recordCase(id){if(!window.CejProCasesData.load().cases.some(c=>c.id===id))return;const ids=[id,...history().filter(x=>x!==id)].slice(0,20);try{window.CejProStorage.setItem(key,JSON.stringify(ids));}catch(_){} }
  function empty(name,title,text,href,label){return `<div class="home-empty">${icon(name)}<h3>${title}</h3><p>${text}</p><a class="cases-secondary" href="${href}">${label} ↗</a></div>`;}
  function mount(el){host=el;render();}
  function render(){const now=new Date(),today=C.dateKey(now),allCases=window.CejProCasesData.load().cases,recents=history(),ordered=[...allCases].sort((a,b)=>{const ai=recents.indexOf(a.id),bi=recents.indexOf(b.id);if(ai!==-1||bi!==-1)return (ai===-1?999:ai)-(bi===-1?999:bi);return Number(a.status==='archived')-Number(b.status==='archived');}),drafts=window.CejProWritingsData.load().sort((a,b)=>b.updatedAt-a.updatedAt),linked=!!window.CejProSinoeData.linkedAccount(),notifications=linked?window.CejProSinoeData.load().sort((a,b)=>Number(a.read)-Number(b.read)||b.date.localeCompare(a.date)):[],unread=notifications.filter(n=>!n.read).length;

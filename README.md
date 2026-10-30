@@ -187,3 +187,35 @@ El formulario mantiene título, tipo, fecha, hora y enlace; notas y completado e
 - Crear una identidad desde el formulario de un expediente conserva el borrador y selecciona la identidad nueva. La parte o cliente sigue siendo un dato independiente.
 - Almacenamiento: `cejpro.identities.v1` en el navegador. Usar datos ficticios: no hay sincronización con CEJ o la extensión, ni validación oficial de documentos, ni registro de consultas o último uso.
 - Verificado funcionalmente con DOM: alta DNI/CE, duplicados, campos condicionales, selección y reutilización, bloqueo de eliminación con vínculos, reasignación, eliminación libre, persistencia, búsqueda y submenú en escenarios móviles/compactos y los tres temas. La revisión visual real de `file://` sigue pendiente por la restricción de la herramienta de navegador.
+
+
+## Espacios de trabajo · Sustitución de Equipo
+
+- Abrir el menú de la cuenta, abajo a la izquierda: cambiar de espacio, **Crear espacio de trabajo**, **Invitar a un amigo** y **Gestionar espacio**. El nombre y el rol actual aparecen junto a la cuenta.
+- Los registros previos permanecen en **Espacio personal**, con sus claves originales. No se borran ni se copian a los espacios nuevos. Equipo deja de cargarse y su ruta anterior redirige a `#espacios`; sus archivos y datos antiguos se conservan sin convertirlos automáticamente en invitaciones.
+- Cada espacio nuevo empieza sin expedientes, carpetas, clientes, identidades, calendario, cobros, borradores, plantillas personales ni conexión SINOE. Las plantillas predeterminadas del editor siguen disponibles como herramientas. SINOE no siembra ejemplos en espacios nuevos.
+- `modules/workspaces/data.js` centraliza el registro (`cejpro.workspaces.v1`), la selección por pestaña y el almacenamiento con ámbito. Los espacios adicionales usan el prefijo `cejpro.workspace:ID:`. El espacio personal mantiene las claves anteriores. Los PDFs locales SINOE también usan una base IndexedDB separada por espacio.
+- El cambio de espacio recarga la interfaz para descartar cachés de los módulos. Primero guarda el escrito pendiente y bloquea el cambio si ese guardado falla. El ámbito de los guardados se captura al iniciar la página, por lo que un guardado pendiente no puede acabar en otro espacio. Las pestañas abiertas conservan su propia selección.
+- Invitaciones por correo, sin duplicados en el mismo espacio, con roles **Lector** o **Editor**. Se pueden cambiar los roles y cancelar las invitaciones. El propietario administra miembros y el nombre del espacio; el editor modifica el contenido y el lector solo consulta. No se permite eliminar ni degradar al propietario.
+- **Alcance local:** las invitaciones tienen estado **Pendiente de envío**. No se envían correos, no se crean accesos para otras personas y no hay sincronización entre equipos ni edición simultánea. Los roles pueden revisarse desde **Probar vistas de permisos** y se identifican con una barra de vista previa y el acceso **Volver como propietario**. Esta simulación limita la interfaz y las escrituras locales; no es un mecanismo de autenticación o seguridad de producción.
+- Para compartir de verdad, el servidor deberá resolver autenticación individual (sin compartir contraseñas), aceptación de invitaciones, pertenencia al espacio, autorización de cada operación y archivo, aislamiento por `workspaceId`, y sincronización/conflictos de edición. Las identidades CEJ y la casilla SINOE que se vinculen a un espacio necesitarán su propia política de acceso al integrar esos servicios.
+- Pruebas: `node tests/workspaces.test.cjs`. Requiere `jsdom` disponible fuera del repositorio; admite `CEJPRO_JSDOM` para indicar la ruta del paquete. Verifica aislamiento y persistencia, conservación de datos personales, espacios vacíos, invitaciones, duplicados, roles, bloqueo del lector, guardados pendientes, fallos de almacenamiento, navegación y estructura móvil en los tres temas. No sustituye la revisión visual en un navegador; esta sigue pendiente por la restricción de `file://` de la herramienta.
+- Respaldo previo: `../respaldos-cejpro/antes-workspaces-20261030-104630/`.
+
+
+### Ajuste de navegación e invitación de espacios
+
+- El menú de cuenta presenta, en orden: **Espacios de trabajo**, **Invitar a un amigo**, **Mi perfil**, **Personalizar** y **Configuración**.
+- **Espacios de trabajo** despliega un segundo panel con avatares, nombres y una marca para el espacio actual. **Crear espacio de trabajo** aparece al final de ese panel. Se adapta al ancho disponible y admite volver con su flecha, Escape y cierre al pulsar fuera.
+- **Invitar a un amigo** abre el gestor y enfoca el correo. El gestor utiliza las pestañas **Miembros** y **Espacios**. En Miembros se invita mediante correo, rol y botón en una fila, con una lista compacta de personas debajo. Se conserva el estado pendiente, el cambio de rol y la cancelación. El resumen de permisos queda plegado.
+- La invitación sigue siendo local; el rediseño no añade envío de correos ni autenticación remota.
+
+
+- El selector termina con **+ Añadir espacio de trabajo**. **Invitar a un amigo** y ese acceso también permanecen visibles al probar los roles Lector/Editor: al pulsarlos se sale de la simulación, se recarga como propietario y se retoma el formulario solicitado. No se habilitan escrituras de administración dentro de la vista de lector. La acción pendiente se limita al espacio actual y se consume una sola vez.
+
+
+### Invitaciones en ventana modal
+
+- **Invitar a un amigo** abre una ventana sobre el módulo actual, sin cambiar la ruta. Mantiene el correo y rol en una fila y la lista de miembros debajo.
+- La ventana permanece abierta tras guardar, muestra errores de duplicados y permite cambiar roles o cancelar invitaciones. La X y Escape permiten cerrarla; el foco regresa al control anterior disponible o a la cuenta.
+- El gestor `#espacios` conserva la consulta de miembros, con un botón que abre la misma ventana. No hay dos formularios de invitación distintos. La salida de las vistas de prueba también retoma esta ventana.

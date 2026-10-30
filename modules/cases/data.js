@@ -22,8 +22,8 @@ window.CejProCasesData = (() => {
   const caseIds=new Set();
   return state.cases.every(c=>{if(!c||typeof c.id!=='string'||!c.id||caseIds.has(c.id)||typeof c.title!=='string'||!c.title.trim()||c.title.length>120||!['number','client'].every(k=>typeof c[k]==='string'&&c[k].length<=180)||(c.note!==undefined&&(typeof c.note!=='string'||c.note.length>2000))||(c.identityId!==undefined&&typeof c.identityId!=='string')||!Object.hasOwn(statuses,c.status)||(c.folderId!==''&&!ids.has(c.folderId)))return false;caseIds.add(c.id);return true;});
  }
- function load(){try{const saved=JSON.parse(localStorage.getItem(key));if(valid(saved))return saved;}catch(_){}return demo();}
- function save(state){try{localStorage.setItem(key,JSON.stringify(state));return true;}catch(_){return false;}}
+ function load(){try{const saved=JSON.parse(window.CejProStorage.getItem(key));if(valid(saved))return saved;}catch(_){}return window.CejProWorkspaces.isPersonal?demo():{folders:[],cases:[]};}
+ function save(state){try{window.CejProStorage.setItem(key,JSON.stringify(state));return true;}catch(_){return false;}}
  function query(state,{folder='all',status='all',search=''}={}){const term=normalize(search);return state.cases.filter(c=>(folder==='all'||c.folderId===(folder==='unfiled'?'':folder))&&(status==='all'||c.status===status)&&(!term||normalize([c.title,c.number,c.client].join(' ')).includes(term)));}
  return {statuses,normalize,demo,valid,load,save,query};
 })();

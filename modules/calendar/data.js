@@ -18,7 +18,7 @@ window.CejProCalendarData = (() => {
  const storageKey='cejpro.v02.calendar';
  let cachedEvents=null;
  function valid(e){return e&&typeof e.id==='string'&&typeof e.title==='string'&&e.title.trim()&&e.title.length<=120&&Object.hasOwn(types,e.type)&&/^\d{4}-\d{2}-\d{2}$/.test(e.date)&&!Number.isNaN(fromKey(e.date).getTime())&&dateKey(fromKey(e.date))===e.date&&(!e.time||/^([01]\d|2[0-3]):[0-5]\d$/.test(e.time))&&['caseRef','client','location','notes'].every(k=>typeof e[k]==='string')&&typeof e.done==='boolean'&&(e.caseId===undefined||typeof e.caseId==='string');}
- function load(today=new Date()){if(cachedEvents)return cachedEvents;try{const raw=localStorage.getItem(storageKey);if(raw!==null){const saved=JSON.parse(raw);if(Array.isArray(saved)&&saved.every(valid)){cachedEvents=saved;return cachedEvents;}}}catch(_){}cachedEvents=demo(today);return cachedEvents;}
- function save(events){cachedEvents=events;let stored=true;try{localStorage.setItem(storageKey,JSON.stringify(events));}catch(_){stored=false;}window.dispatchEvent(new CustomEvent('cejpro:calendar-change'));return stored;}
+ function load(today=new Date()){if(cachedEvents)return cachedEvents;try{const raw=window.CejProStorage.getItem(storageKey);if(raw!==null){const saved=JSON.parse(raw);if(Array.isArray(saved)&&saved.every(valid)){cachedEvents=saved;return cachedEvents;}}}catch(_){}cachedEvents=window.CejProWorkspaces.isPersonal?demo(today):[];return cachedEvents;}
+ function save(events){if(!window.CejProWorkspaces.canEdit())return false;cachedEvents=events;let stored=true;try{window.CejProStorage.setItem(storageKey,JSON.stringify(events));}catch(_){stored=false;}window.dispatchEvent(new CustomEvent('cejpro:calendar-change'));return stored;}
  return {dateKey,fromKey,demo,types,singular,load,save};
 })();

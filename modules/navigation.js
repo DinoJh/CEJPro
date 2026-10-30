@@ -6,9 +6,9 @@ window.CejProModules = [
  {id:'identidades',label:'Identidades CEJ',icon:'user',parent:'expedientes',description:'Identidades reutilizables para tus consultas CEJ.'},
  {id:'sinoe',label:'Casilla SINOE',icon:'inbox',description:'Un espacio para organizar las notificaciones de tus expedientes.'},
  {id:'clientes',label:'Clientes',icon:'users',description:'Un espacio para tus clientes y el seguimiento de honorarios.'},
- {id:'equipo',label:'Equipo',icon:'team',description:'Un espacio compartido para organizar tu estudio.'},
  {id:'escritos',label:'Redactar escritos',icon:'file',description:'Un espacio para preparar y organizar tus escritos.'},
  {id:'soporte',label:'Soporte',icon:'help',description:'Un espacio para encontrar ayuda cuando la necesites.',utility:true},
+ {id:'espacios',label:'Espacios de trabajo',icon:'layers',description:'Tus espacios y sus miembros.',account:true},
  {id:'perfil',label:'Mi perfil',icon:'user',description:'Un espacio para tu información personal y profesional.',account:true},
  {id:'personalizar',label:'Personalizar',icon:'palette',description:'Haz que tu espacio se sienta más tuyo.',account:true},
  {id:'configuracion',label:'Configuración',icon:'settings',description:'Un espacio para las preferencias de tu cuenta.',account:true}
