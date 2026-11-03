@@ -41,9 +41,33 @@ function boot(storage={},active='personal',role='owner',hash='inicio',mobile=fal
  check(!p.w.CejProSinoeData.linkedAccount()&&p.w.CejProSinoeData.load().length===0,'SINOE nuevo sin conexión ni avisos');
  check(p.w.CejProSinoeData.seedExamples([]).length===0,'No sembrar notificaciones ficticias en espacios nuevos');
  check(p.w.CejProCaseFiles.list('case-demo-1').length===0,'Documentos aislados');
+ for(const [route,selector] of [['expedientes','#casesEmpty'],['identidades','#identitiesModule .clients-empty'],['clientes','#clientsModule .clients-empty'],['escritos','#writingsModule .clients-empty']]){
+ p.route(route);const empty=p.d.querySelector(selector);check(empty&&empty.querySelector('.icon svg'),'Estado vacío con icono en '+route);check(empty.querySelectorAll('p').length===1&&!empty.querySelector('h2,h3,strong'),'Un solo mensaje sin título pesado en '+route);
+ if(['expedientes','identidades'].includes(route))check(!p.d.querySelector('#expedientesMenu').classList.contains('active')&&p.d.querySelector('.nav-submenu .active')?.hash==='#'+route,'Solo la opción hija está seleccionada');
+ }
  p.route('expedientes');p.d.querySelector('#newCase').click();const form=p.d.querySelector('#caseForm');
+ check(!form.elements.namedItem('status')&&!p.d.querySelector('#caseStatus'),'Expedientes sin campo ni filtro de estado');
+ check(form.elements.namedItem('number').required&&!form.elements.namedItem('number').closest('details'),'Número obligatorio y visible fuera de adicionales');
+ check(p.d.querySelector('#caseNoteField').hidden&&form.elements.namedItem('note').disabled,'Nota oculta y deshabilitada al crear');
+ check(!p.d.querySelector('#caseDialog .cases-overline')&&!p.d.querySelector('#caseListDescription'),'Sin textos adicionales del archivo');
+ form.elements.namedItem('title').value='Número vacío';form.elements.namedItem('number').value='   ';form.dispatchEvent(new p.w.Event('submit',{cancelable:true}));
+ check(!p.w.CejProCasesData.load().cases.length,'Rechazar número de expediente compuesto por espacios');
+ form.elements.namedItem('number').dispatchEvent(new p.w.Event('input'));
  form.elements.namedItem('title').value='Expediente compartido';form.elements.namedItem('number').value='00705-2025-0-2101-JR-CI-02';form.dispatchEvent(new p.w.Event('submit',{cancelable:true}));
  const c=p.w.CejProCasesData.load().cases[0];check(c?.title==='Expediente compartido','Crear expediente desde formulario en espacio nuevo');
+ p.d.querySelector('[data-edit-case]').click();check(!p.d.querySelector('#caseNoteField').hidden&&!form.elements.namedItem('note').disabled,'Nota disponible al editar');
+ form.elements.namedItem('note').value='Nota conservada del expediente';form.dispatchEvent(new p.w.Event('submit',{cancelable:true}));
+ check(p.w.CejProCasesData.load().cases[0].note==='Nota conservada del expediente','Guardar nota desde edición');
+ check(!p.d.querySelector('#caseRows [data-label="Estado"]'),'Listado sin columna de estado');
+ p.w.CejProIdentities.openEditor();const identityForm=p.d.querySelector('#identityEditorForm');identityForm.elements.namedItem('documentType').value='ce';p.d.querySelector('#identityDocumentType').dispatchEvent(new p.w.Event('change'));
+ check(p.d.querySelector('#identityNumberLabel').textContent==='Número de carné de extranjería'&&identityForm.elements.namedItem('birthDate').required&&identityForm.elements.namedItem('issueDate').required&&!identityForm.elements.namedItem('issueDate').disabled,'Carné solicita su número y ambas fechas');
+ check(identityForm.elements.namedItem('digit').disabled,'Carné no solicita código de verificación del DNI');
+ const ceInput={documentType:'ce',documentNumber:'123456789',birthDate:'1990-01-01',issueDate:'2020-01-01',alias:'Carné de prueba'};
+ check(!p.w.CejProIdentitiesData.save({...ceInput,issueDate:''}).ok,'Carné exige fecha de emisión al guardar');
+ const savedCe=p.w.CejProIdentitiesData.save(ceInput);check(savedCe.ok&&p.w.CejProIdentitiesData.get(savedCe.identity.id).issueDate==='2020-01-01','Persistir fecha de emisión del carné');
+ p.d.querySelector('#identityEditorDialog').close();
+
+
  p.w.CejProCaseFiles.add(c.id,'',[{name:'Archivo del espacio.pdf',size:12,type:'application/pdf'}]);
  p.w.CejProCaseDetailData.addFolder(c.id,'Documentos de Andina');
  p.w.CejProCalendarData.save([{id:'event-a',title:'Audiencia de Andina',type:'audiencia',date:'2026-11-02',time:'09:00',caseRef:c.number,caseId:c.id,client:'',location:'',notes:'',done:false}]);
@@ -88,7 +112,7 @@ function boot(storage={},active='personal',role='owner',hash='inicio',mobile=fal
  p=boot(storage,aid,'reader','expedientes');W=p.w.CejProWorkspaces;p.w.CejProWorkspacePermissions.sync();
  check(!W.canEdit()&&!W.canManage(),'Lector sin edición ni administración');
  check(p.d.querySelector('#newCase').disabled,'Botón de alta deshabilitado para lector');
- check(!p.d.querySelector('#caseStatus').disabled,'Lector puede usar filtros');
+ check(!p.d.querySelector('#caseClientFilter').disabled,'Lector puede usar filtros');
  check(p.w.CejProCasesData.load().cases[0].id===c.id,'Lector puede consultar expedientes existentes');
  check(!p.w.CejProCasesData.save({cases:[],folders:[]})&&p.w.CejProCasesData.load().cases.length===1,'Lector no puede persistir cambios de expedientes');
  check(!p.w.CejProCaseFiles.add(c.id,'',[{name:'No.pdf',size:0,type:'application/pdf'}])&&p.w.CejProCaseFiles.list(c.id).length===1,'Lector no puede subir archivos ni cambiar memoria');
@@ -120,6 +144,23 @@ function boot(storage={},active='personal',role='owner',hash='inicio',mobile=fal
  p.w.Storage.prototype.setItem=originalSet;await p.close();
  p=boot(storage,aid);W=p.w.CejProWorkspaces;p.w.CejProWritings.flush=()=>false;
  check(!W.activate(bid).ok&&p.w.sessionStorage.getItem(activeKey)===aid,'No cambiar con borrador que no se pudo guardar');await p.close();
+ p=boot(storage,aid,'owner','calendario');
+ check(p.d.querySelector('#selectedDate').textContent==='Hoy en tu agenda','Un único título para la agenda de hoy');check(!p.d.querySelector('#dayOverline')&&!p.d.querySelector('.cal-next .cal-overline'),'Sin rótulos repetidos en paneles laterales');
+ const date=p.d.querySelector('.cal-date:not([aria-pressed="true"])');date.click();check(p.d.querySelector('#selectedDate').textContent==='Agenda del día','Seleccionar otra fecha conserva un título correcto');check(p.d.querySelector('#calendarContents .cal-grid'),'Cuadrícula dentro de su tarjeta');await p.close();
+ p=boot(storage,aid,'owner','calendario');
+ const knownClient={id:'client-select-test',name:'Cliente registrado',type:'person',document:'',phone:'',email:'',notes:'',caseIds:[c.id]};p.w.CejProClientsData.save([knownClient]);
+ p.d.querySelector('#addEvent').click();let eventForm=p.d.querySelector('#eventForm');
+ p.w.CejProFormLabels.sync();
+ check(eventForm.elements.namedItem('title').closest('label').querySelector('.form-required'),'Asterisco en título obligatorio');check(!eventForm.elements.namedItem('caseId').closest('label').querySelector('.form-required'),'Sin asterisco en expediente opcional');check(!/opcional/i.test(eventForm.textContent),'Etiquetas sin la palabra opcional');
+ check(eventForm.elements.namedItem('caseId').tagName==='SELECT'&&eventForm.elements.namedItem('clientId').tagName==='SELECT','Selectores de expediente y cliente');
+ check([...eventForm.elements.namedItem('caseId').options].some(o=>o.value===c.id)&&[...eventForm.elements.namedItem('clientId').options].some(o=>o.value===knownClient.id),'Opciones del espacio actual');
+ eventForm.elements.namedItem('title').value='Evento con vínculos';eventForm.elements.namedItem('date').value='2026-11-05';eventForm.elements.namedItem('caseId').value=c.id;eventForm.elements.namedItem('clientId').value=knownClient.id;eventForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));
+ let savedEvent=p.w.CejProCalendarData.load().find(e=>e.title==='Evento con vínculos');check(savedEvent.caseId===c.id&&savedEvent.clientId===knownClient.id&&savedEvent.client===knownClient.name,'Guardar vínculos reales y referencias');
+ p.route('calendario/evento/'+savedEvent.id);eventForm=p.d.querySelector('#eventForm');check(eventForm.elements.namedItem('caseId').value===c.id&&eventForm.elements.namedItem('clientId').value===knownClient.id,'Restaurar selección al editar');
+ eventForm.elements.namedItem('caseId').value='';eventForm.elements.namedItem('clientId').value='';eventForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));savedEvent=p.w.CejProCalendarData.load().find(e=>e.id===savedEvent.id);check(!savedEvent.caseId&&!savedEvent.clientId&&!savedEvent.caseRef&&!savedEvent.client,'Quitar vínculos opcionales');
+ const legacy={...savedEvent,id:'legacy-choice',title:'Anterior',caseRef:'Referencia antigua',client:'Cliente anterior'};delete legacy.clientId;delete legacy.caseId;p.w.CejProCalendarData.save([...p.w.CejProCalendarData.load(),legacy]);p.route('calendario/evento/legacy-choice');eventForm=p.d.querySelector('#eventForm');eventForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));check(p.w.CejProCalendarData.load().find(e=>e.id===legacy.id).client==='Cliente anterior','Conservar datos anteriores sin coincidencia');await p.close();
+ p=boot(storage,bid,'owner','sinoe');p.w.CejProFormLabels.sync();const password=p.d.querySelector('#sinoePassword'),toggle=p.d.querySelector('#toggleSinoePassword');password.value='clave-de-prueba';
+ check(toggle.querySelector('svg')&&!toggle.textContent.trim(),'Ojo en lugar de texto');toggle.click();check(password.type==='text'&&toggle.getAttribute('aria-label')==='Ocultar contraseña'&&toggle.getAttribute('aria-pressed')==='true','Mostrar contraseña');toggle.click();check(password.type==='password'&&password.value==='clave-de-prueba'&&toggle.getAttribute('aria-pressed')==='false','Ocultar conservando el valor');check(password.closest('label').querySelector('.form-field-caption .form-required')&&!password.closest('.form-field-caption'),'Asterisco junto a la etiqueta del campo compuesto');await p.close();
  const ownerActionKey='cejpro.workspace.ownerAction.v1';
  for(const action of ['create','invite']){
   p=boot(storage,'personal','reader');const oldCount=p.w.CejProWorkspaces.all().length;
@@ -132,5 +173,68 @@ function boot(storage={},active='personal',role='owner',hash='inicio',mobile=fal
   check(action==='create'?p.d.querySelector('#workspaceNameDialog').open:p.d.querySelector('#workspaceInviteDialog').open&&p.w.location.hash==='#inicio','La vista propietaria retoma el formulario correcto');
   check(!p.w.sessionStorage.getItem(ownerActionKey),'La acción pendiente se consume una sola vez');await p.close();
  }
+ p=boot(storage,'personal','owner','escritos');
+ const draftCount=p.w.CejProWritingsData.load().length;
+ check(!p.d.querySelector('#listWritingTemplates')&&!p.d.querySelector('#writingCaseFilter'),'Listado simple sin botón Plantillas ni filtro de vinculación');
+ p.d.querySelector('#newWriting').click();check(p.d.querySelector('#writingTemplatesDialog').open&&p.w.CejProWritingsData.load().length===draftCount,'Nuevo borrador abre plantillas sin crear documento vacío');
+ check(!p.d.querySelector('#writingTemplateCase'),'Catálogo sin vinculación con expedientes');
+ p.d.querySelector('#writingTemplateForm').dispatchEvent(new p.w.Event('submit',{cancelable:true}));
+ const templateDraft=p.w.CejProWritingsData.load()[0];check(templateDraft.content.trim().length>0&&!templateDraft.caseId,'Crear borrador con contenido de plantilla');
+ p.route('escritos/'+templateDraft.id);
+ check(p.d.querySelector('#writingTitle')&&!p.d.querySelector('#writingFillFields')&&p.d.querySelector('#writingSaveAsTemplate'),'Acciones principales del panel derecho');
+ check(!p.d.querySelector('#writingCase')&&!p.d.querySelector('#writingDraftPicker')&&!p.d.querySelector('#writingKind')&&!p.d.querySelector('#writingStatus')&&!p.d.querySelector('#writingDownload'),'Panel sin controles secundarios redundantes');
+ check(!p.d.querySelector('#editorDeleteWriting').closest('details')&&!p.d.querySelector('#writingTemplates'),'Eliminar visible y sin Nuevo borrador en el editor');
+ check(p.d.querySelector('#writingSave')&&p.d.querySelector('#writingPrint'),'Conservar guardado y PDF');
+ p.d.querySelector('#writingPrint').click();check(p.d.querySelector('#writingPdfDialog').open&&p.d.querySelector('#writingPdfPreview').textContent.trim().length>0,'PDF abre vista previa con contenido');
+ p.d.querySelector('#cancelWritingPdf').click();check(!p.d.querySelector('#writingPdfDialog').open,'Cerrar vista previa conserva el editor');await p.close();
+ p=boot(storage,'personal','owner','cobros');
+ check(p.d.querySelector('#clientesSubmenu').hidden,'Clientes y Cobros en submenú cerrado');p.d.querySelector('#clientesMenu').click();check(!p.d.querySelector('#clientesSubmenu').hidden,'Abrir submenú Clientes');
+ check(p.d.querySelector('.collection-client-card')&&!p.d.querySelector('.collection-ledger'),'Cobros comienza por seleccionar cliente');
+ const billingClient=p.w.CejProClientsData.load().find(c=>c.caseIds.length),billingCaseId=billingClient.caseIds[0],billing=p.w.CejProBillingData;
+ const chargeA=billing.saveCharge(billingClient.id,{concept:'Servicio con expediente',currency:'PEN',amount:'1000',date:'2020-01-01',dueDate:'2020-01-10',caseId:billingCaseId});
+ const chargeB=billing.saveCharge(billingClient.id,{concept:'Servicio sin expediente',currency:'PEN',amount:'500',date:'2020-01-01',dueDate:'',caseId:''});
+ check(chargeA.ok&&chargeB.ok,'Conservar cobros con y sin expediente');
+ p.route('cobros/'+billingClient.id);check(p.d.querySelector('.collection-case-link[aria-current]').textContent.includes('Sin expediente'),'Cliente inicia en servicios sin expediente');
+ check(p.d.querySelector('.ledger-table').textContent.includes('Servicio sin expediente')&&!p.d.querySelector('.ledger-table').textContent.includes('Servicio con expediente'),'Separar movimientos según expediente');
+ check(p.d.querySelector('.ledger-table td.ledger-debit')&&p.d.querySelector('.collection-case-sidebar'),'Saldo en rojo y selector lateral de expedientes');
+ check(!p.d.querySelector('.ledger-table [data-pay]')&&!p.d.querySelector('.ledger-table #ledgerNewCharge'),'Tabla sin botones para registrar');
+ p.d.querySelector('#ledgerNewCharge').click();let chargeForm=p.d.querySelector('#ledgerChargeForm');chargeForm.elements.namedItem('concept').value='Consulta sin caso';chargeForm.elements.namedItem('amount').value='300';chargeForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));
+ const general=billing.list(billingClient.id).find(c=>c.concept==='Consulta sin caso');check(general&&general.caseId===''&&general.amount===30000,'Registrar cobro sin exigir expediente');
+ p.d.querySelector('#ledgerNewPayment').click();let paymentForm=p.d.querySelector('#ledgerPaymentForm');paymentForm.elements.namedItem('chargeId').value=general.id;paymentForm.elements.namedItem('amount').value='400';paymentForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));check(!p.d.querySelector('#ledgerPaymentError').hidden,'Rechazar pago mayor al saldo');
+ paymentForm.elements.namedItem('amount').value='100';paymentForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));check(billing.balance(billing.list(billingClient.id).find(c=>c.id===general.id))===20000,'Registrar pago parcial');
+ check(p.d.querySelector('.ledger-table td.ledger-credit')&&p.d.querySelector('.ledger-table').textContent.includes('Yape'),'Pago verde y medio registrado');
+ check(p.d.querySelector('[data-movement="charge"]')&&p.d.querySelector('[data-movement="payment"]'),'Cobros y pagos juntos por defecto');
+ p.d.querySelector('#ledgerConceptFilter').value='Consulta sin caso';p.d.querySelector('#ledgerConceptFilter').dispatchEvent(new p.w.Event('change'));check(p.d.querySelectorAll('.ledger-table tbody tr').length===2&&!p.d.querySelector('.ledger-table').textContent.includes('Servicio sin expediente'),'Concepto filtra cobro y sus pagos juntos');p.d.querySelector('#ledgerConceptFilter').value='all';p.d.querySelector('#ledgerConceptFilter').dispatchEvent(new p.w.Event('change'));
+check(!p.d.querySelector('[data-ledger-view]'),'Sin pestañas separadas');
+ p.d.querySelector('.ledger-filter-toolbar .table-filters-toggle').click();check(!p.d.querySelector('#tableFilters-ledger').hidden,'Filtros desplegables de movimientos');
+ p.d.querySelector('#ledgerTypeFilter').value='payments';p.d.querySelector('#ledgerTypeFilter').dispatchEvent(new p.w.Event('change'));check(!p.d.querySelector('[data-movement="charge"]')&&p.d.querySelector('[data-movement="payment"]'),'Filtrar solo pagos');
+ p.d.querySelector('#tableFilters-ledger .table-filter-clear').click();check(p.d.querySelector('[data-movement="charge"]')&&p.d.querySelector('[data-movement="payment"]')&&p.d.querySelector('#ledgerTypeFilter').value==='all','Limpiar filtros restaura movimientos combinados');
+ check(p.d.querySelector('#ledgerNewPayment').classList.contains('ledger-payment-button')&&p.d.querySelector('#ledgerNewCharge').classList.contains('ledger-charge-button'),'Botones diferenciados para pago y cobro');
+
+ p.d.querySelector('[data-ledger-edit][data-kind="payment"]').click();paymentForm=p.d.querySelector('#ledgerPaymentForm');paymentForm.elements.namedItem('amount').value='150';paymentForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));check(billing.balance(billing.list(billingClient.id).find(c=>c.id===general.id))===15000,'Editar pago actualiza saldo');
+ p.d.querySelector('[data-ledger-delete][data-kind="payment"]').click();check(p.d.querySelector('#ledgerDeleteDialog').open,'Eliminar pago solicita confirmación');p.d.querySelector('#ledgerDeleteForm').dispatchEvent(new p.w.Event('submit',{cancelable:true}));check(billing.balance(billing.list(billingClient.id).find(c=>c.id===general.id))===30000,'Eliminar pago restaura deuda');
+ p.d.querySelector('#ledgerTypeFilter').value='all';p.d.querySelector('#ledgerTypeFilter').dispatchEvent(new p.w.Event('change'));const editGeneral=[...p.d.querySelectorAll('[data-ledger-edit]')].find(b=>b.dataset.id===general.id);editGeneral.click();chargeForm=p.d.querySelector('#ledgerChargeForm');chargeForm.elements.namedItem('amount').value='350';chargeForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));check(billing.list(billingClient.id).find(c=>c.id===general.id).amount===35000,'Editar cobro sin expediente');
+ p.route('cobros/'+billingClient.id+'/'+billingCaseId);check(p.d.querySelector('.ledger-table').textContent.includes('Servicio con expediente')&&!p.d.querySelector('.ledger-table').textContent.includes('Consulta sin caso'),'Navegar a expediente sin mezclar datos');
+ p.d.querySelector('#ledgerNewPayment').click();paymentForm=p.d.querySelector('#ledgerPaymentForm');paymentForm.elements.namedItem('amount').value='200';paymentForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));check(billing.paid(billing.list(billingClient.id).find(c=>c.id===chargeA.id))===20000,'Pago del expediente correcto');
+ p.d.querySelector('#ledgerTypeFilter').value='all';p.d.querySelector('#ledgerTypeFilter').dispatchEvent(new p.w.Event('change'));p.d.querySelector('[data-ledger-delete][data-kind="charge"]').click();check(p.d.querySelector('#ledgerDeleteContext').textContent.includes('pagos registrados'),'Advertir que eliminar cobro incluye sus pagos');p.d.querySelector('[data-ledger-close="ledgerDeleteDialog"]').click();check(billing.list(billingClient.id).some(c=>c.id===chargeA.id),'Cancelar eliminación conserva cobro y pagos');
+ p.d.querySelector('#ledgerCurrency').value='USD';p.d.querySelector('#ledgerCurrency').dispatchEvent(new p.w.Event('change'));check(!p.d.querySelector('.ledger-table'),'No mezclar monedas');p.d.querySelector('#ledgerNewCharge').click();chargeForm=p.d.querySelector('#ledgerChargeForm');chargeForm.elements.namedItem('concept').value='Servicio USD';chargeForm.elements.namedItem('amount').value='50';chargeForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));check(p.d.querySelector('.ledger-table').textContent.includes('US$ 50.00'),'Registrar cobro en dólares');
+ p.route('clientes/'+billingClient.id+'/cobros');check(p.w.location.hash==='#cobros/'+billingClient.id,'Conservar enlaces antiguos');
+ const noCaseClient={id:'client-without-case',name:'Cliente sin expedientes',type:'person',document:'',phone:'',email:'',notes:'',caseIds:[]};p.w.CejProClientsData.save([...p.w.CejProClientsData.load(),noCaseClient]);p.route('cobros/'+noCaseClient.id);p.d.querySelector('#ledgerNewCharge').click();chargeForm=p.d.querySelector('#ledgerChargeForm');chargeForm.elements.namedItem('concept').value='Asesoría';chargeForm.elements.namedItem('amount').value='75';chargeForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));check(billing.list(noCaseClient.id)[0]?.caseId==='','Cliente sin ningún expediente puede tener cobros');
+ const temporary=billing.list(noCaseClient.id)[0];p.d.querySelector('[data-ledger-delete]').click();p.d.querySelector('#ledgerDeleteForm').dispatchEvent(new p.w.Event('submit',{cancelable:true}));check(!billing.list(noCaseClient.id).some(c=>c.id===temporary.id),'Eliminar cobro confirmado desde tabla');
+
+ const collectionStorage=p.snapshot();await p.close();p=boot(collectionStorage,'personal','reader','cobros/'+billingClient.id);p.w.CejProWorkspacePermissions.sync();check(p.d.querySelector('#ledgerNewCharge').disabled&&p.d.querySelector('#ledgerNewPayment').disabled&&p.d.querySelector('[data-ledger-edit]').disabled,'Lector sin modificar cobros ni pagos');check(p.w.CejProBillingData.list(billingClient.id).some(c=>c.id===general.id&&c.amount===35000),'Persistir modificaciones y registros previos');check(!p.w.CejProBillingData.removeCharge(billingClient.id,general.id).ok&&!p.w.CejProBillingData.editPayment(billingClient.id,chargeA.id,'missing',{amount:'10',date:'2020-01-01'}).ok,'Datos protegen edición y eliminación en lector');await p.close();
+ p=boot(collectionStorage,bid,'owner','cobros',true);check(!p.d.querySelector('.collection-client-card')&&p.d.querySelector('.clients-empty .icon'),'Espacio nuevo sin clientes ni cobros heredados');await p.close();
+ for(const theme of ['elegante','claro','oscuro']){p=boot(collectionStorage,'personal','owner','cobros/'+billingClient.id,true);p.d.documentElement.dataset.theme=theme;check(p.d.querySelector('.collection-case-sidebar')&&p.d.querySelector('.ledger-table'),'Vista móvil y tema '+theme);await p.close();}
+ p=boot(collectionStorage,'personal','owner','clientes');p.d.querySelector('#newClient').click();let clientForm=p.d.querySelector('#clientForm');
+ check(p.d.querySelector('#clientNoteField').hidden&&clientForm.elements.namedItem('notes').disabled,'Nuevo cliente sin campo de nota');
+ check(!p.d.querySelector('#clientAdditional').open&&clientForm.elements.namedItem('type').closest('#clientAdditional')&&p.d.querySelector('#clientCaseOptions').closest('#clientAdditional'),'Tipo de cliente y casos dentro de Adicionales cerrado');
+ clientForm.elements.namedItem('name').value='Cliente de una columna';clientForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));const oneColumnClient=p.w.CejProClientsData.load().find(c=>c.name==='Cliente de una columna');check(oneColumnClient?.notes===''&&oneColumnClient.type==='person','Crear sin nota guarda datos válidos');
+ p.route('clientes/'+oneColumnClient.id);p.d.querySelector('#editClient').click();clientForm=p.d.querySelector('#clientForm');check(!p.d.querySelector('#clientNoteField').hidden&&!clientForm.elements.namedItem('notes').disabled,'Nota visible al editar cliente');
+ clientForm.elements.namedItem('notes').value='Nota importante del cliente';clientForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));check(p.w.CejProClientsData.load().find(c=>c.id===oneColumnClient.id).notes==='Nota importante del cliente','Editar conserva y guarda nota');await p.close();
+ p=boot(collectionStorage,'personal','owner','cobros/'+noCaseClient.id);p.d.querySelector('#ledgerAddCase').click();check(p.d.querySelector('#ledgerCaseDialog').open,'Agregar expediente desde Cobros');p.d.querySelector('#ledgerCaseSelect').value=billingCaseId;p.d.querySelector('#ledgerCaseForm').dispatchEvent(new p.w.Event('submit',{cancelable:true}));await new Promise(resolve=>setTimeout(resolve,25));check(p.w.CejProClientsData.load().find(c=>c.id===noCaseClient.id).caseIds.includes(billingCaseId)&&p.d.querySelector('.collection-case-link[aria-current]').href.includes(encodeURIComponent(billingCaseId)),'Vincular expediente existente y seleccionarlo');
+ p.d.querySelector('#ledgerAddCase').click();check(![...p.d.querySelector('#ledgerCaseSelect').options].some(o=>o.value===billingCaseId),'No ofrecer vínculos duplicados');p.d.querySelector('#ledgerCreateCase').click();check(p.d.querySelector('#caseDialog').open&&p.d.querySelector('#caseDialog').parentElement===p.d.body,'Crear expediente abre formulario visible fuera del módulo oculto');const newCaseForm=p.d.querySelector('#caseForm');newCaseForm.elements.namedItem('number').value='00999-2026-0-2101-JR-CI-01';newCaseForm.elements.namedItem('title').value='Expediente desde Cobros';newCaseForm.dispatchEvent(new p.w.Event('submit',{cancelable:true}));await new Promise(resolve=>setTimeout(resolve,25));
+ const fromBilling=p.w.CejProCasesData.load().cases.find(c=>c.number==='00999-2026-0-2101-JR-CI-01');check(fromBilling&&p.w.CejProClientsData.load().find(c=>c.id===noCaseClient.id).caseIds.includes(fromBilling.id),'Nuevo expediente se guarda y asocia al cliente');check(p.w.location.hash.includes(encodeURIComponent(fromBilling.id))&&p.d.querySelector('.collection-case-link[aria-current]').textContent.includes('Expediente desde Cobros'),'Volver a Cobros con el expediente nuevo seleccionado');
+ p.route('clientes/'+noCaseClient.id);check(p.d.querySelector('.client-related').textContent.includes('Expediente desde Cobros'),'Ficha de cliente refleja nuevas asociaciones');p.route('expedientes');check(p.d.querySelector('#caseRows').textContent.includes('Expediente desde Cobros'),'Expediente disponible en Mis expedientes');await p.close();
+ p=boot(collectionStorage,'personal','reader','cobros/'+billingClient.id);p.w.CejProWorkspacePermissions.sync();check(p.d.querySelector('#ledgerAddCase').disabled,'Lector no vincula ni crea expedientes');await p.close();
  console.log('Workspaces: '+checks+' comprobaciones correctas.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

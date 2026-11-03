@@ -19,3 +19,11 @@
 .cal-period h2{min-width:0;margin:0}
 .cal-arrows{flex-shrink:0}
 @media(max-width:600px){.cal-period{width:100%;grid-template-columns:minmax(0,1fr) 48px auto;gap:8px}.cal-period h2{font-size:clamp(16px,4.5vw,20px)}}
+
+/* Cuadrícula dentro de una tarjeta interior alineada con los controles. */
+#calendarContents{margin:0 18px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+#calendarContents .cal-weekdays{border-top:0;background:var(--table-heading-bg,var(--paper))}
+#calendarContents .cal-cell:nth-last-child(-n+7){border-bottom:0}
+.cal-day-heading h2{font:600 18px/1.5 var(--font);margin:0 0 7px;text-transform:none}
+.cal-next h2{margin-top:0}
+@media(max-width:600px){#calendarContents{margin-left:12px;margin-right:12px}.cal-day-heading h2{font-size:17px}}

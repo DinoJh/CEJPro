@@ -44,7 +44,7 @@ body:has(#workspacesModule:not([hidden])) .content{max-width:960px}
 .workspace-invite-dialog{width:min(740px,calc(100vw - 32px));max-height:calc(100dvh - 48px);overflow:hidden}
 .workspace-invite-dialog[open]{display:flex;flex-direction:column}
 .workspace-invite-dialog>.cases-dialog-heading{flex:none;align-items:flex-start}
-.workspace-invite-dialog .workspace-dialog-context{margin-top:6px;font-size:12px}
+.workspace-invite-dialog .workspace-dialog-context{margin-top:12px;font-size:15px;color:var(--ink);line-height:1.6}.workspace-invite-dialog .workspace-dialog-context strong{font-weight:600;color:var(--accent-text)}.workspace-invite-dialog>.cases-dialog-heading>div{min-width:0}
 .workspace-invite-content{padding:22px 26px 24px;overflow-y:auto;min-height:0}
 .workspace-invite-members-heading{font-size:12px;font-weight:600;color:var(--muted);margin-top:24px}
 .workspace-invite-members-heading>span{font-weight:400;margin-left:5px}

@@ -45,3 +45,19 @@
  .writing-page-canvas{padding:22px 18px}
  .writing-properties{padding:20px 16px;gap:16px}
 }
+/* Vista del documento centrada antes de abrir la impresión del navegador. */
+.writing-pdf-dialog{position:fixed;inset:0;margin:auto;width:min(850px,calc(100vw - 32px));max-height:calc(100dvh - 40px);overflow:hidden}
+.writing-pdf-dialog[open]{display:flex;flex-direction:column}
+.writing-pdf-dialog>.cases-dialog-heading,.writing-pdf-dialog>.cases-dialog-footer{flex-shrink:0}
+.writing-pdf-body{overflow:auto;min-height:0;background:var(--paper);padding:24px}
+.writing-pdf-body .writing-paper{width:100%;min-height:0}
+.writing-pdf-body .ql-editor{height:auto}
+@media(max-width:600px){.writing-pdf-body{padding:12px}.writing-pdf-body .ql-editor{padding:30px 24px}}
+/* Listado de borradores compacto, independiente del ancho del editor. */
+@media(min-width:1000px){body:has(#writingsModule:not([hidden])):not(:has(.writing-workspace)) .content{max-width:860px}}
+.writings-table{table-layout:fixed;min-width:580px}
+.writings-table th:first-child{width:49%}
+.writings-table th:nth-child(2){width:24%}
+.writings-table th:last-child{width:27%}
+.writings-table td:nth-child(2){white-space:nowrap}
+.writing-title-link{overflow-wrap:anywhere}

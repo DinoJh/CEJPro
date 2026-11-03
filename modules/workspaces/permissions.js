@@ -3,7 +3,7 @@
  const W=window.CejProWorkspaces;
  const writeSelectors=[
  '#newCase','#addFirstCase','#newFolder','[data-edit-case]','#editDetailCase','#editSummary','#changeSummaryIdentity','#addParty','[data-edit-party]','#detailNewFolder','#detailUpload','[data-move-file]','#caseNewIdentity','#caseAgendaAdd',
- '#newClient','[data-edit-client]','#editClient','#linkClientCases','#newCharge','[data-new-case-charge]','[data-charge-edit]','[data-pay]','[data-remove-payment]',
+ '#ledgerAddCase','#ledgerCreateCase','#ledgerLinkCase','#ledgerNewCharge','#ledgerNewPayment','[data-ledger-edit]','[data-ledger-delete]','#collectionsNew','#collectionChooseSubmit','[data-collection-pay]', '#newClient','[data-edit-client]','#editClient','#linkClientCases','#newCharge','[data-new-case-charge]','[data-charge-edit]','[data-pay]','[data-remove-payment]',
  '#newIdentity','[data-identity-edit]','[data-identity-delete]','#confirmDeleteIdentity',
  '#addEvent','#addSelected','#deleteEvent','#caseAgendaDelete','a[href^="#calendario/nuevo"]',
  '#newSinoeFolder','[data-edit-sinoe-folder]','#disconnectSinoe','#sinoeBulkMove','[data-toggle-notification]','#toggleNotification','#organizeNotification',

@@ -9,3 +9,14 @@
 
 /* Contenido más compacto y centrado. */
 @media(min-width:1000px){body:has(#clientsModule:not([hidden])) .content{max-width:980px;padding-left:28px;padding-right:28px}}
+/* Listado de clientes ligeramente más estrecho y centrado. */
+@media(min-width:1000px){body:has(#clientsModule:not([hidden]) .clients-toolbar) .content{max-width:900px}}
+/* Creación y edición del cliente en una sola columna. */
+#clientDialog{width:min(520px,calc(100vw - 32px))}
+#clientDialog .cases-form-body{display:flex;flex-direction:column;gap:18px;padding:24px 26px}
+#clientDialog .client-main-fields{padding:0;gap:17px}
+#clientDialog .cases-form-row{grid-template-columns:minmax(0,1fr)}
+#clientDialog .client-note-fields{padding:0;border:0;background:transparent}
+#clientDialog #clientError{margin:0}
+.client-additional-fields{display:flex;flex-direction:column;gap:17px;margin-top:16px}
+@media(max-width:600px){#clientDialog .cases-form-body{padding:20px}}
