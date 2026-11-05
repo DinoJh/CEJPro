@@ -34,3 +34,8 @@
 .sinoe-folder-search-empty{padding:10px 7px;font-size:12px;line-height:1.6;color:var(--muted)}
 
 .sinoe-password button{display:grid;place-items:center;width:36px;height:36px;flex:none;padding:8px;border-radius:5px;color:var(--muted)}.sinoe-password button .icon{width:20px;height:20px}.sinoe-password button:hover{background:var(--accent-soft);color:var(--accent-text)}
+
+.sinoe-main{display:flex;flex-direction:column}
+.sinoe-main>.cases-pagination{margin-top:auto;flex:none}
+.sinoe-layout:has(.sinoe-main>.clients-empty){min-height:350px}
+.sinoe-main>.clients-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:35px 24px}

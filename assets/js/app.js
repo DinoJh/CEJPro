@@ -55,7 +55,7 @@
   $('homeModule').hidden=m.id!=='inicio';
   if(m.id==='inicio')window.CejProHome.mount($('homeModule'));
   $('personalization').hidden=m.id!=='personalizar';
-  document.querySelector('.workspace-canvas').hidden=['inicio','personalizar','calendario','expedientes','identidades','clientes','cobros','espacios','sinoe','escritos','soporte'].includes(m.id);
+  document.querySelector('.workspace-canvas').hidden=['inicio','personalizar','calendario','expedientes','identidades','clientes','cobros','espacios','sinoe','escritos','soporte','perfil','configuracion'].includes(m.id);
   $('casesModule').hidden=m.id!=='expedientes';
   if(m.id==='expedientes'){window.CejProCases.mount($('casesModule'));window.CejProCases.showRoute(route);if(route.split('/')[1]&&document.querySelector('#caseDetailScreen .detail-heading h1')){try{window.CejProHome.recordCase(decodeURIComponent(route.split('/')[1]));}catch(_){}}}
   $('clientsModule').hidden=m.id!=='clientes';
@@ -67,6 +67,8 @@
   $('writingsModule').hidden=m.id!=='escritos';
   if(m.id==='escritos'){window.CejProWritings.mount($('writingsModule'));window.CejProWritings.showRoute(route);}
   document.querySelector('.page-heading').hidden=['expedientes','clientes','cobros','espacios','sinoe','escritos'].includes(m.id)&&!!route.split('/')[1]&&!(m.id==='expedientes'&&route.split('/')[1]==='carpetas')&&(m.id!=='sinoe'||!!document.querySelector('#sinoeScreen .sinoe-heading'));
+  $('profileModule').hidden=m.id!=='perfil';if(m.id==='perfil')window.CejProAccount.profile($('profileModule'));
+  $('settingsModule').hidden=m.id!=='configuracion';if(m.id==='configuracion')window.CejProAccount.settings($('settingsModule'));
   $('supportModule').hidden=m.id!=='soporte';
   if(m.id==='soporte')window.CejProSupport.mount($('supportModule'));
   $('calendarModule').hidden=m.id!=='calendario';
@@ -103,5 +105,6 @@
  mobile.addEventListener('change',closeMenu);
  window.addEventListener('hashchange',()=>{if(location.hash==='#main')return;render();$('main').focus({preventScroll:true});});
  window.CejProWorkspacesUI.init();
+ if(!location.hash){const start=window.CejProAccountData.loadPreferences().startPage;if(start!=='inicio')history.replaceState(null,'','#'+start);}
  render();
 })();

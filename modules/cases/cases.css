@@ -60,3 +60,11 @@
 #caseDialog .cases-dialog-heading h2{margin-top:0}
 .cases-table th:first-child{width:44%}.cases-table th:nth-child(2){width:24%}.cases-table th:nth-child(3){width:20%}.cases-table th:last-child{width:12%}
 @media(max-width:600px){#caseDialog .cases-form-body{padding:20px}}
+
+/* El pie conserva su altura y queda al fondo incluso sin resultados. */
+.cases-list-shell .cases-panel{display:flex;flex-direction:column}
+.cases-list-shell .cases-panel>#casePagination{margin-top:auto;flex:none}
+.cases-list-shell .cases-layout:has(#casesEmpty:not([hidden])){min-height:350px}
+.cases-list-shell #casesEmpty:not([hidden]){flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:35px 24px}
+.cases-list-shell #casePageSummary:empty{display:none}
+.cases-list-shell #casePagination:has(#casePageSummary:empty){justify-content:flex-end}

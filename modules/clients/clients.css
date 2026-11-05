@@ -15,8 +15,17 @@
 #clientDialog{width:min(520px,calc(100vw - 32px))}
 #clientDialog .cases-form-body{display:flex;flex-direction:column;gap:18px;padding:24px 26px}
 #clientDialog .client-main-fields{padding:0;gap:17px}
-#clientDialog .cases-form-row{grid-template-columns:minmax(0,1fr)}
+#clientDialog .cases-form-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+#clientDialog .cases-form-row>label{min-width:0}
+@media(max-width:420px){#clientDialog .cases-form-row{grid-template-columns:minmax(0,1fr)}}
 #clientDialog .client-note-fields{padding:0;border:0;background:transparent}
 #clientDialog #clientError{margin:0}
 .client-additional-fields{display:flex;flex-direction:column;gap:17px;margin-top:16px}
 @media(max-width:600px){#clientDialog .cases-form-body{padding:20px}}
+
+#clientCasePicker{margin-top:0;padding-top:14px;border-top:1px solid var(--line)}
+#clientCasePicker>summary{margin-bottom:0;font-size:13px;color:var(--accent-text);cursor:pointer}
+#clientCasePicker[open]>summary{margin-bottom:12px}
+
+#clientForm .client-delete-button{margin-right:auto;background:transparent;color:var(--accent-text);font:12px var(--font);padding:10px 0}
+#clientForm .client-delete-button:hover{text-decoration:underline}

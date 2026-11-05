@@ -18,3 +18,11 @@
 #ledgerNewPayment{background:#237449;color:#fff;border:1px solid #237449}#ledgerNewPayment:hover{background:#195b38;border-color:#195b38}
 #ledgerNewCharge:focus-visible,#ledgerNewPayment:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 #ledgerAddCase{width:100%;font-size:12px;margin:0 0 17px;padding:10px 8px}
+.collection-client-id{font-size:13px;color:var(--muted);margin-top:9px}
+#ledgerPaymentSave{background:#237449;color:#fff}#ledgerPaymentSave:hover{background:#195b38}
+
+/* Importe principal, moneda compacta y concepto agrupado. */
+.ledger-payment-amount{display:grid;grid-template-columns:minmax(0,1fr) 145px;gap:12px;align-items:start}
+.ledger-payment-amount>label{min-width:0}
+.ledger-payment-concept{display:flex;flex-direction:column;gap:18px;padding:18px;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+@media(max-width:400px){.ledger-payment-amount{grid-template-columns:minmax(0,1fr) 120px;gap:8px}.ledger-payment-concept{padding:14px}}

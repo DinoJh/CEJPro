@@ -55,7 +55,7 @@
   const filtered=!!search.trim()||clientFilter!=='all'||identityFilter!=='all';
   $('casesEmptyTitle').textContent=filtered?'No encontramos coincidencias':'No hay expedientes en esta carpeta.';
   window.CejProTableFilters.mount(host.querySelector('.cases-toolbar'),'cases');
-  $('casePageSummary').textContent=list.length?`Mostrando ${(page-1)*pageSize+1}–${Math.min(page*pageSize,list.length)} de ${list.length}`:'Sin casos para mostrar';
+  $('casePageSummary').textContent=list.length?`Mostrando ${(page-1)*pageSize+1}–${Math.min(page*pageSize,list.length)} de ${list.length}`:'';
   $('casePageLabel').textContent=`${page} / ${pages}`;$('casesPrev').disabled=page<=1;$('casesNext').disabled=page>=pages;
  }
  function populateIdentityFilter(){
